@@ -1,0 +1,11 @@
+@import "../themes/variable";
+
+.x-alert-base{@extend %x-alert;border:1px solid $borderColorDeep;border-radius:4px;}
+
+%x-alert{padding:10px;margin:10px 0;}
+
+@each $key, $value in $colors {
+  .x-alert-#{$key} {background-color:lighten($value,15%);border:1px solid $value;border-radius:4px;color:set-notification-text-color($value);@extend %x-alert;}
+}
+
+.x-alert-quote{border-left:8px solid $borderColorDeep;background-color:$bgColorLight;@extend %x-alert;}

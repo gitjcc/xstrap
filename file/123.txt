@@ -1,0 +1,203 @@
+﻿<form action="#" class="form" method="post">
+    <div class="">
+        <div class="form_label">
+            <span class="form_key">用户:</span>
+            <span class="form_value"><?php use lib\alioss\TheAlioss;
+
+                echo $data['u3_name'] ?></span>
+        </div>
+
+        <div class="form_label">
+            <span class="form_key">用户地址:</span>
+            <span class="form_value"><?php echo $data['location']; ?></span>
+        </div>
+
+
+        <div class="form_label">
+            <span class="form_key">发起时间:</span>
+            <span class="form_value"><?php echo date('Y-m-d H:i:s',$data['create_time']); ?></span>
+        </div>
+
+
+        <div class="form_label">
+            <span class="form_key">任务说明:</span>
+            <span class="form_value"><?php echo $data['content']; ?></span>
+        </div>
+
+        <div class="form_label">
+            <span class="form_key">处理前照片:</span>
+            <span class="form_value">
+                <?php
+                $html = '<div class="imgView">';
+                $pics=json_decode($data['pics'],true);
+                if(is_array($pics)){
+                    foreach($pics as $pic){
+
+                        $html .= '<img class="imgView_item" width="30" height="30" imgviewsrc="'.TheAlioss::init()->get_sign_url($pic).'"';
+                        $html .= ' src="' .TheAlioss::init()->get_thumb_sign_url($pic).'" > ';
+                    }
+                }
+
+                $html .= '</div>';
+
+                echo $html;
+
+                ?>
+            </span>
+        </div>
+        <div class="form_label">
+            <span class="form_key">处理后照片:</span>
+            <span class="form_value">
+                <?php
+                $html = '<div class="imgView">';
+                $pics=json_decode($data['complete_pics'],true);
+                if(is_array($pics)){
+                    foreach($pics as $pic){
+
+                        $html .= '<img class="imgView_item" width="30" height="30" imgviewsrc="'.TheAlioss::init()->get_sign_url($pic).'"';
+                        $html .= ' src="' .TheAlioss::init()->get_thumb_sign_url($pic).'" > ';
+                    }
+                }
+
+                $html .= '</div>';
+
+                echo $html;
+
+                ?>
+            </span>
+        </div>
+
+
+
+
+        <div class="form_label">
+            <span class="form_key">任务状态:</span>
+            <span class="form_value">
+                <?php
+
+                $html='<a class="button button_small button_radius_l ';
+
+                if($data['end_time']  < time()  and $data['end_time'] != 0 and $data['status']  != Clear::STATUS_COMPLETE){
+                    $html.='button_red">逾期';
+                }else{
+                    if($data['status']  == Clear::STATUS_ING){
+                        $html.='button_yellow">处理中';
+                    }
+
+                    if($data['status']  == Clear::STATUS_WAIT){
+                        $html.='button_blue">未处理';
+                    }
+                    if($data['status']  == Clear::STATUS_COMPLETE){
+                        $html.='button_green">完成';
+                    }
+                }
+
+
+                $html.='</a>';
+
+                echo $html;
+
+                ?>
+            </span>
+        </div>
+
+
+
+
+
+
+
+        <div class="form_label">
+            <span class="form_key">语音:</span>
+            <span class="form_value">
+                <?php
+                    if($data['voice']  &&  $url=json_decode($data['voice'],true)['url']   ){
+                        $html = '<span onclick="playMp3($(this));" class="comm_voice" data-url="' . $url . '">';
+                        $html .= '语音 <span class="voice_horn"><i class="iconfont icon-laba"></i></span>';
+                        $html .= '</span>';
+
+                        echo $html;
+                    }
+                ?>
+            </span>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="form_label">
+            <span class="form_key">截止时间:</span>
+            <span class="form_value"><?php echo $data['end_time']?date('Y-m-d H:i:s',$data['end_time']):''; ?></span>
+        </div>
+        <div class="form_label">
+            <span class="form_key">处理进度:</span>
+            <span class="form_value">
+                <?php
+                if($data['u1_id']  == CUserSession::get('id')){
+                    $data['u1_name'] ='我';
+                }
+                if($data['u1_id']  == CUserSession::get('id')){
+                    $data['u1_name'] ='我';
+                }
+
+
+
+                $progress=json_decode($data['progress'],true);
+
+                array_unshift($progress,array(
+                    'time'=>$data['create_time'],
+                    'desc'=>$data['u3_name'] .'发起',
+                ));
+
+                foreach ($progress as $key =>$step) {
+
+                    if($step['type']  == Clear::PROGRESS_ASSIGN){
+                        $progress[$key]['desc']=$data['u1_name'] .'指派给工人' .$data['u2_name'];
+                    }
+
+                    if($step['type']  == Clear::PROGRESS_COMPLETE){
+                        $progress[$key]['desc']=$data['u4_name'] .'确认' .$data['u2_name'] .'已完成';
+                    }
+                }
+
+                foreach ($progress as $v) {
+                    echo date('Y-m-d H:i:s',$v['time']) .' '.$v['desc'] .'<br>';
+                }
+
+
+                ?>
+            </span>
+        </div>
+
+
+        <div class="form_label">
+            <span class="form_key">指派人:</span>
+            <span class="form_value"><?php echo $data['u1_name'] ?></span>
+        </div>
+
+
+        <div class="form_label">
+            <span class="form_key">执行工人:</span>
+            <span class="form_value"><?php echo $data['u2_name'] ?></span>
+        </div>
+
+        <div class="form_label">
+            <span class="form_key">完成时间:</span>
+            <span class="form_value"><?php echo  $data['finish_time']; ?></span>
+        </div>
+
+    </div>
+</form>
+
+http://xbwq.oss.aliyuncs.com/xbhw/pic/51/2016/10/31/581710a1b08b4.jpg?
+OSSAccessKeyId=3YP0pVdN6ANcBxOu&Signature=HHxCnifDew%2FDWhZy7ikyVgPPjnc%3D&Expires=1477907952
+
+http://xbwq.oss.aliyuncs.com/xbhw/pic/51/2016/10/31/58170b15a605a.jpg?OSSAccessKeyId=3YP0pVdN6ANcBxOu&Signature=rp3HttCXxnPTdUCv3BN%2Be9FZ0l8%3D&Expires=1477907886
+
+http://oss.xbwq.com.cn/xbhw/pic/51/2016/10/31/581710a1b08b4.jpg?OSSAccessKeyId=3YP0pVdN6ANcBxOu&Signature=uOd1%2BgHaQlwwpIjvi3uJsgPF9JU%3D&Expires=1477907952
+
+http://oss.xbwq.com.cn/xbhw/pic/51/2016/10/31/581710a1b08b4.jpg@1e_120w_120h_1c_0i_1o_90Q_1x.png?OSSAccessKeyId=3YP0pVdN6ANcBxOu&Signature=NNCY8%2BGioYMDhiAVBSyoy8WnyZE%3D&Expires=1477910313

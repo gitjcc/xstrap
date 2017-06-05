@@ -1,0 +1,3420 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>小步智慧执法</title>
+  <meta name="description" content="overview &amp; stats"/>
+  <script language="javascript">
+    var isLteIE8 = !+[1,];
+    if (isLteIE8) {
+      var isIE8 = document.documentMode === 8;
+      if (!isIE8) {
+        var id_url = "/waiqin/error/ie";
+        window.location.href = id_url;
+      }
+    }
+  </script>
+
+  <link rel="shortcut icon" href="/waiqin/public/images/favicon.ico"/>
+  <link href="/waiqin/public/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/waiqin/public/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/jquery-ui-1.10.3.custom.min.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/colorbox.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/ace-fonts.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/chosen.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/ace.min.css"/>
+
+  <!--[if lte IE 8]>
+  <link rel="stylesheet" href="/waiqin/public/css/ace-ie.min.css"/>
+  <link rel="stylesheet" href="/waiqin/public/css/ie8.css"/>
+  <![endif]-->
+  <script src="/waiqin/public/js/ace-extra.min.js"></script>
+  <!--[if lt IE 9]>
+  <script src="/waiqin/public/plugins/html5/html5shiv.js"></script>
+  <script src="/waiqin/public/js/respond.min.js"></script>
+  <![endif]-->
+  <!--[if !IE]> -->
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='/waiqin/public/jquery/jquery-2.0.3.min.js'>" + "<" + "/script>");
+  </script>
+  <!-- <![endif]-->
+  <!--[if IE]>
+  <script type="text/javascript">
+    window.jQuery || document.write("<script src='/waiqin/public/jquery/jquery-1.10.2.min.js'>" + "<" + "/script>");
+  </script>
+  <![endif]-->
+  <script src="/waiqin/public/js/bootstrap.min.js"></script>
+  <!-- ace scripts -->
+  <script src="/waiqin/public/js/ace-elements.min.js"></script>
+  <script src="/waiqin/public/js/ace.min.js"></script>
+
+  <link rel="stylesheet" href="/waiqin/public/css/admin.css"/>
+  <script type="text/javascript">
+
+    // /waiqin
+    var baseUrl = '/waiqin';
+    // /waiqin/public
+    var publicUrl = '/waiqin/public';
+
+    var global_search_url = '/waiqin/search/index';
+
+    //全局控制Ajax是否可用，锁屏=禁用，解锁=可用
+    var global_ajax_available = true;
+    //锁屏时，会被置为false
+    var global_user_logined = true;
+    //后台任务ID，用于导入导出
+    var global_task_id = 0;
+    //后台任务成功完成后，将跳转的url
+    var global_task_referer = '';
+    //后台任务（导入导出）启动，等待通知时，置为true
+    var global_on_waiting_notice = false;
+    //后台任务完成时，右上角是否显示通知气泡
+    var global_notice_bubble = false;
+
+    var not_super_admin = '1';
+    var my_info = {
+      id:21        };
+  </script>
+  <script src="/waiqin/public/js/tip/tip.js"></script>
+  <script src="/waiqin/public/common/cookie.js"></script>
+</head>
+
+<body class="">
+<div class="navbar navbar-default navbar-fixed-top" id="navbar">
+  <div class="navbar-container" id="navbar-container">
+    <div class="navbar-header pull-left">
+      <a href="/waiqin/Index" class="navbar-brand">
+        <img src="/waiqin/public/images/cms_logo.png">
+      </a>
+    </div>
+    <!--顶部右边导航开始-->
+    <div class="navbar-header pull-right" role="navigation">
+      <link rel="stylesheet" href="/waiqin/public/css/msgbox.css">
+      <style>
+        .notice_child {
+          margin: 5px 0px;
+          border-bottom: 1px #cccccc dashed;
+        }
+        .notice_child a {
+          float: right;
+        }
+        .notice_title {
+          margin: 0px 15px;
+        }
+        .notice_child .ok_num {
+          color: green;
+        }
+        .notice_child .err_num {
+          color: red;
+        }
+        .notice_clear {
+          position: absolute;
+          left: 16px;
+          bottom: 12px;
+        }
+        .notice_no {
+          text-align: center;
+          font-size: 14px;
+        }
+        .notice_bubble {
+          display: inline-block;
+          background-color: red;
+          width: 16px;
+          height: 16px;
+          border-radius: 8px;
+          text-align: center;
+          line-height: 14px;
+          color: white;
+          font-weight: bold;
+          position: relative;
+          left: 3px;
+        }
+        #notice_center {
+          margin-right: 15px;
+        }
+        .notice_bell {
+          font-size: 14px;
+        }
+        .ace-nav > li > a, .ace-nav > li > a:hover, .ace-nav > li > a:focus {
+          background-color: #50545D;
+        }
+        .ace-nav > li > a.notice_color {
+          background-color: #992E67;
+        }
+      </style>
+      <ul class="nav ace-nav">
+        <li>
+          <a onclick="switchLanguage('en');" class="nav_item">
+            English
+          </a>
+        </li>
+
+        <li>
+          <a onclick="showversion();" class="nav_item soft_version">
+            最新版本1.231            </a>
+        </li>
+        <li>
+          <a id="notice_center" class=""
+             data-delurl="/waiqin/TaskProcessing/delete"
+             data-numurl="/waiqin/TaskProcessing/GetNotice"
+             data-url="/waiqin/TaskProcessing/index" href="javascript:void(0);">
+            <i class="icon-bell-alt notice_bell"></i>
+            通知中心
+          </a>
+        </li>
+        <li style="color: white;">联系我们：400-089-8621</li>
+        <li><a onclick="globalScreenLock();" href="javascript:void(0);"><i class="icon-lock bigger-160"></i></a></li>
+        <li class="light-blue">
+          <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+
+            <span class="user-info">
+                                    <small>办公室主任</small>
+                    主任                            </span>
+
+            <i class="icon-caret-down"></i>
+          </a>
+
+          <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+            <li>
+              <a href="/waiqin/user/editUserInfo">
+                <i class="icon-user"></i>
+                个人资料
+              </a>
+            </li>
+
+            <li class="divider"></li>
+
+            <li>
+              <a href="/waiqin/Login/Logout">
+                <i class="icon-off"></i>
+                退出
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div id="ver_msg_html" style="display: none;">
+        1、综合指挥实现资源上图，掌控全局更方便。
+        2、人员定位与工作轨迹相融合，查看队员工作情况更便捷。
+        3、UI界面优化，给您更舒适的操作体验。
+        4、修复已知Bug。
+      </div>
+      <script src="/waiqin/public/js/msgbox.js"></script>
+      <script>
+
+        var user_screen_lock = Cookie.getCookie('user_screen_lock2');
+        if (user_screen_lock > 0) {
+          globalScreenLock();
+        }
+
+        var showversion = function () {
+        };
+        var show_ver_msg = function () {
+        };
+        var switchLanguage = function (lang) {
+          $.ajax({
+            url: '/waiqin/Common/SwitchLanguage',
+            data: {lang: lang},
+            type: 'POST',
+            dataType: 'JSON',
+            success: function (res_data) {
+              if (res_data['ok']) {
+                location.replace(location.href);
+              }
+            }
+          });
+        };
+
+        showversion = function () {
+          var $html = '<p>小步智慧执法客户端更新了新版本</p>';
+          $html += '<p>版本号：' + '1.231</p>';
+          $html += '<p>更新时间：' + '2016-07-18 21:19:06</p>';
+          $html += '<span style="float: left;">更新说明：</span><pre>' + $('#ver_msg_html').html() + '</pre>';
+          msgBox.show($html, false, '确定', 'false');
+        };
+
+        function globalScreenLock() {
+          var account = 'zr';
+          var lock_html = '<p style="font-size: 14px;">尊敬的 ' + account + '<br/>您已较长时间未进行操作，为保护您的账户安全，系统已被锁定，请输入密码唤醒之前的操作页面</p>';
+          lock_html += '<div style="position: relative;height: 50px;top: 10px">';
+          lock_html += '<i class="icon-lock bigger-160" style="color: #919191;font-size: 16px;position: absolute;left: 6px;top: 7px;"></i>';
+          lock_html += '<input style="padding-left: 20px;width: 280px;" id="lock_user_pwd" placeholder="登录密码" type="password">';
+          lock_html += '<a onclick="globalScreenUnlock();" style="position: relative;left: 10px;top: -3px;width: 60px;" class="btn btn-danger btn-sm">唤醒</a>';
+          lock_html += '</div>';
+          lock_html += '<div id="lock_user_msg" style="color: red;"></div>';
+          global_user_logined = false;
+          msgBox.showPro({
+            msg_title: '系统提示',
+            box_body: lock_html,
+            is_need_btn_ok: false,
+            is_need_btn_close: false,
+            is_need_box_close: false,
+            is_need_box_bottom: false
+          });
+          $('#lock_user_pwd').bind('keyup', function (e) {
+            if (e.keyCode == 13) {
+              globalScreenUnlock();
+            }
+          });
+          var this_input = $('#lock_user_pwd');
+          var textValue = this_input.val();
+          this_input.focus().val(textValue);
+          Cookie.setCookie('user_screen_lock2', 1, 7, '/');
+        }
+
+        function globalScreenUnlock() {
+          $('#lock_user_msg').html('');
+          var pwd = $('#lock_user_pwd').val();
+          if (pwd == '') {
+            $('#lock_user_msg').html('登录密码不可以为空');
+          } else {
+            global_ajax_available = true;
+            var login_url = '/waiqin/Login/AjaxLogin';
+            var com_id = '5354';
+            var account = 'zr';
+            $.ajax({
+              url: login_url,
+              data: 'com_id=' + com_id + '&account=' + account + '&pwd=' + pwd,
+              type: 'POST',
+              dataType: 'JSON',
+              success: function (res_data) {
+                if (res_data['ok']) {
+                  global_user_logined = true;
+                  Cookie.setCookie('user_screen_lock2', 0, 0, '/');
+                  msgBox.hide();
+                } else {
+                  global_ajax_available = false;
+                  $('#lock_user_msg').html(res_data['msg']);
+                }
+              },
+              error: function (res_data) {
+                $('#lock_user_msg').html('服务器未响应，请稍后重试');
+              }
+            });
+          }
+        }
+      </script>            </div>
+    <!--顶部右边导航结束-->
+  </div>
+</div>
+
+<div class="main-container" id="main-container">
+  <div class="main-container-inner">
+    <!-- 左边导航开始 -->
+    <div class="sidebar sidebar-fixed" id="sidebar">
+      <ul class="nav nav-list" style="">
+        <li class="active open">
+          <a href="#" class="dropdown-toggle"> <i class="icon-map-marker"></i>     <span class="menu-text">指挥中心</span>     <b class="arrow icon-angle-down"></b> </a>
+          <ul class="submenu">
+            <li class="active"><a href="/waiqin/command" ><i class="icon-double-angle-right"></i>综合指挥</a></li>
+            <li class=""><a href="/waiqin/location" ><i class="icon-double-angle-right"></i>定位轨迹</a></li>
+            <li class=""><a href="/waiqin/task/uncheck" ><i class="icon-double-angle-right"></i>任务处理</a></li>
+            <li class=""><a href="/waiqin/taskAssign" ><i class="icon-double-angle-right"></i>任务指派</a></li>                    </ul>
+        </li>
+
+        <li class="">
+          <a href="#" class="dropdown-toggle"> <i class="icon-envelope-alt"></i>     <span class="menu-text">台账</span>     <b class="arrow icon-angle-down"></b> </a>            <ul class="submenu">
+          <li class=""><a href="/waiqin/alarm" ><i class="icon-double-angle-right"></i>事件台账</a></li>
+          <li class=""><a href="/waiqin/alarmStat/index?type=1" ><i class="icon-double-angle-right"></i>事件统计</a></li>
+          <li class=""><a href="/waiqin/taskAccount/app?view_type=1" ><i class="icon-double-angle-right"></i>手机端任务台账</a></li>
+          <li class=""><a href="/waiqin/taskAccount/admin" ><i class="icon-double-angle-right"></i>指挥中心任务台账</a></li>            </ul>
+        </li>
+
+        <li class="">
+
+          <a href="#" class="dropdown-toggle"> <i class="icon-time"></i>     <span class="menu-text">移动考勤</span>     <b class="arrow icon-angle-down"></b> </a>                <ul class="submenu">
+
+          <li class=""><a href="/waiqin/presenceAdmin/collectionNormal" ><i class="icon-double-angle-right"></i>考勤报表</a></li>
+          <li class=""><a href="/waiqin/leave" ><i class="icon-double-angle-right"></i>请假列表</a></li>
+          <li class=""><a href="/waiqin/presenceClasses/index?show=1" ><i class="icon-double-angle-right"></i>快速创建考勤班次</a></li>
+          <li class=""><a href="/waiqin/presenceClasses" ><i class="icon-double-angle-right"></i>考勤班次管理</a></li>
+          <li class=""><a href="/waiqin/locationSetting/fence" ><i class="icon-double-angle-right"></i>围栏管理</a></li>
+          <li class=""><a href="/waiqin/presenceUser" ><i class="icon-double-angle-right"></i>考勤管理</a></li>                </ul>
+        </li>
+
+        <li class=""><a href="/waiqin/notice" class="dropdown-toggle"><i class="icon-volume-up"></i><span class="menu-text"> 通知公告</span></a></li>
+        <li class="">
+          <a href="#" class="dropdown-toggle"> <i class="icon-sitemap"></i>     <span class="menu-text">系统设置</span>     <b class="arrow icon-angle-down"></b> </a>
+          <ul class="submenu">
+
+            <li class="">
+              <a href="#" class="dropdown-toggle"><i class="icon-double-angle-right"></i>终端管理<b class="arrow icon-angle-down"></b></a>                            <ul class="submenu menue_level_3">
+              <li class=""><a href="/waiqin/device" >设备管理</a></li>                                <li class=""><a href="/waiqin/whitelist" >软件白名单</a></li>                                <li class=""><a href="/waiqin/intercom" >对讲后台</a></li>                            </ul>
+            </li>
+
+            <li class=""><a href="/waiqin/role" ><i class="icon-double-angle-right"></i>权限管理</a></li>                <li class=""><a href="/waiqin/user" ><i class="icon-double-angle-right"></i>员工管理</a></li>                <li class=""><a href="/waiqin/useraccount/userlist" ><i class="icon-double-angle-right"></i>账号授权</a></li>
+            <li class=""><a href="/waiqin/alarmData" ><i class="icon-double-angle-right"></i>事件资料设置</a></li>                    <li class=""><a href="/waiqin/waterMarker" ><i class="icon-double-angle-right"></i>水印相册设置</a></li>
+            <li class=""><a href="/waiqin/commandSetting" ><i class="icon-double-angle-right"></i>综合指挥设置</a></li>                            </ul>
+        </li>
+      </ul>
+
+      <script src="/waiqin/public/js/leftnav/threelevels.js"></script>
+    </div>
+    <!-- 左边导航结束 -->
+    <div class="main-content">
+      <!--面包屑开始-->
+      <div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
+        <ul class="breadcrumb">
+          <li>
+            <i class="icon-home home-icon"></i>
+            <a href="/waiqin/index">首页</a>
+          </li>
+          <li>
+            <a class="active"                                    href="/waiqin/command">综合指挥</a>
+          </li>
+        </ul>
+      </div>
+      <!--面包屑结束-->
+      <div id="content">
+        <style>
+          body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+          }
+          #content {
+            margin: 0;
+            top: 60px;
+          }
+          .markerContentStyle {
+            position: absolute;
+            width: 46px;
+            height: 66px;
+            color: #fff;
+            background-color: green;
+            text-align: center;
+          }
+          .markerContentStyle img {
+            width: 46px;
+            height: 46px;
+          }
+          .markerContentStyle span {
+            white-space: nowrap;
+            display: inline-block;
+            overflow: hidden;
+            width: 100%;
+          }
+          .clusterWindow img {
+            width: 46px;
+            height: 46px;
+            cursor: pointer;
+          }
+          .clusterWindow {
+            width: 46px;
+            display: inline-block;
+            margin: 4px;
+            text-align: center;
+            vertical-align: top;
+          }
+          #map_w {
+            float: left;
+            background: url(/waiqin/public/images/b_load.gif) no-repeat center;
+            position: relative;
+          }
+          .map_top {
+            position: absolute;
+            top: 0;
+            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.5);
+            left: 50%;
+            margin-left: -100px;;
+            border-radius: 40px;;
+            padding: 5px 10px;;
+          }
+          .map_top_title {
+            display: inline-block;
+            line-height: 50px;
+            font-size: 24px;
+            font-family: "Microsoft YaHei";
+            color: white;
+            width: 100%;
+            text-align: center;
+          }
+          .resource_box {
+            position: absolute;
+            top: 15px;
+            right: 14px;
+            background-color: white;
+            width: 330px;
+            z-index: 10;
+            border-radius: 5px;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0px 0px 5px #ddd;
+            display: none;
+          }
+          .resource_box_title {
+            background-color: #CCC;
+            text-align: center;
+            font-size: 18px;
+            line-height: 35px;
+            font-family: "Microsoft YaHei";
+          }
+          .resource_box_selector {
+            line-height: 35px;
+            text-align: center;
+            border-bottom: 1px solid #CCC;
+          }
+          .resource_box_body_info {
+            display: block;
+            padding: 10px;
+          }
+          .resource_box_body_info_item {
+            padding: 10px 5px;
+            border-top: 1px solid #eee;
+          }
+          .resource_box_body_info_item a {
+            cursor: hand;
+            float: right;
+          }
+          .resource_user_num {
+            margin-right: 5px;
+          }
+          .resource_box_body_selector {
+            display: none;
+            padding: 10px;
+          }
+          .resource_box_body_selector_label {
+            font-size: 16px;
+            font-weight: bolder;
+          }
+          .resource_box_body_selector_item {
+            text-align: left;
+            margin-top: 22px;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+          }
+          .resource_box_selector label {
+            margin-bottom: 0;
+          }
+          .resource_box_body_selector_btns {
+            margin-left: 20px;
+            text-align: center;
+          }
+          .select_btn {
+            float: right;
+            line-height: 12px;
+            margin: 4px 5px 0 0;
+          }
+          .search_submit_btn {
+            margin-top: 10px;
+            margin-right: 40px;
+            padding: 0 10px;
+          }
+          .search_cancel_btn {
+            margin-top: 10px;
+            padding: 0 10px;
+          }
+          .tree_box {
+            display: inline-block;
+            margin-top: 0px !important;
+          }
+          .tree_box .select_box input[readonly=readonly] {
+            background-color: white !important;
+          }
+          #menuContent {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            border: solid rgb(197, 208, 220) 1px;
+            width: 160px;
+          }
+          .tree_ok_btn {
+            width: 100%;
+            padding: 0 9px;
+          }
+          .search_form_box {
+            float: none;
+            display: inline-block;
+            margin: 3px 0;
+          }
+          .search_tips_box {
+            margin-right: 0;
+          }
+          .search_tips_box .search_input {
+            margin-left: 0;
+            float: left;
+          }
+          .select_box input {
+            font-size: 12px;
+            padding-left: 10px;
+            height: 35px;
+            width: 215px;
+            border-radius: 5px;
+          }
+          .profile-activity .user {
+            font-weight: bold;
+            color: #9585bf;
+          }
+          .profile-activity .thumbicon {
+            font-size: 12px;
+            line-height: 18px;
+            width: 18px;
+            height: 18px;
+          }
+          .profile-activity .item {
+            padding: 3px 15px;
+          }
+          .profile-activity .item .error {
+            color: #FF3232;
+          }
+          .profile-activity .item .fial {
+            color: #FF2D2D;
+          }
+          #search_list span {
+            line-height: 24px;
+            cursor: pointer;
+            display: block;
+          }
+          .checkbox_label {
+            margin-right: 50px;
+            display: inline-block;
+          }
+          .checkbox_label input {
+            margin-right: 3px;
+          }
+          .resource_top {;
+            box-sizing: border-box;
+            text-align: center;
+            border-bottom: 1px solid #E8E8E8;
+          }
+          .resource_bottom {
+            margin: 0 20px 20px 20px;
+          }
+          .resource_bottom_team {
+            display: block;
+          }
+          .resource_bottom_fence {
+            display: none;
+          }
+          .resource_classifyLi {
+            /*        background: url("*/
+            /*/icon/btn_event_s.png") no-repeat;*/
+            display: inline-block;
+            /*background-color: red;*/
+            margin: 20px 15px;
+            box-sizing: border-box;
+            vertical-align: top;
+            cursor: pointer;
+            position: relative;
+          }
+          .resource_call {
+            position: absolute;
+            display: none;
+          }
+          .resource_top .resource_classifyLi_active {
+            display: inline-block;
+          }
+          .resource_screen {
+            display: inline-block;
+            border-left: 1px solid #E8E8E8;
+            vertical-align: top;
+            text-align: center;
+            padding: 35px 10px;
+            height: 100px;
+            cursor: pointer;
+            background: url("/waiqin/public/images/command/open.png") no-repeat center 60px;;
+          }
+          .resource_bottom_team .resource_bottomLi {
+            padding: 5px 0;
+            position: relative;
+            border-top: 1px solid #E8E8E8;
+          }
+          .resource_bottom_team .rightOpen {
+            width: 20px;
+            height: 20px;
+            right: 0;
+            display: inline-block;
+            vertical-align: middle;
+            background: url("/waiqin/public/images/command/arrow.png") no-repeat right;
+          }
+          .resource_bottom_team .resource_bot_content {
+            display: inline-block;
+            vertical-align: middle;
+          }
+          .resource_bottom_team .resource_address {
+            border: none;
+          }
+          .resource_bottom_team .resource_address .rightOpen {
+            position: absolute;
+            top: 40%;
+          }
+          .resource_bottom_event {
+          }
+          .resource_bottom_event .team_choice input {
+            vertical-align: top;
+          }
+          .resource_bottom_event .team_choice label {
+            vertical-align: top;
+            font-size: 12px;
+          }
+          .selector_alarm select {
+            width: 56%;
+          }
+          .selector_alarm {
+            display: block;
+          }
+          .rightOpen {
+            float: right;
+            vertical-align: middle;
+          }
+          .resource_team_des {
+            color: #b3b3b3;
+            font-size: 12px;
+          }
+          .resource_bot_content_li {
+            margin-bottom: 10px;
+          }
+          .resource_bottomLi_Number {
+            color: #48a2e8;
+            font-weight: bolder;
+          }
+          .resource_bottomLi {
+            cursor: pointer;
+          }
+          .resource_bottomLi:hover .rightOpen {
+            background: url("/waiqin/public/images/command/arrow_s.png") no-repeat right;
+            /*background: red;*/
+          }
+          .resource_bottomLi a {
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            padding: 10px 0;
+          }
+          .resource_top .resource_top_team {
+            color: #000;
+            width: 60px;
+            height: 60px;;
+            background: url("/waiqin/public/images/command/btn_team_n.png") no-repeat;
+          }
+          .resource_top .resource_top_event {
+            color: #000;
+            width: 60px;
+            height: 60px;;
+            background: url("/waiqin/public/images/command/btn_event_n.png") no-repeat;
+          }
+          .resource_top .resource_top_fence {
+            color: #000;
+            width: 60px;
+            height: 60px;;
+            background: url("/waiqin/public/images/command/btn_fence_n.png") no-repeat;
+          }
+          .resource_name {
+            margin-top: 35px;
+            display: inline-block;
+          }
+          .resource_top .resource_top_team_active {
+            color: #fff;
+            background: url("/waiqin/public/images/command/btn_team_s.png") no-repeat;
+          }
+          .resource_top .resource_top_event_active {
+            color: #fff;
+            background: url("/waiqin/public/images/command/btn_event_s.png") no-repeat;
+          }
+          .resource_top .resource_top_fence_active {
+            color: #fff;
+            background: url("/waiqin/public/images/command/btn_fence_s.png") no-repeat;
+          }
+          .resource_call_active {
+            display: inline-block;
+          }
+          span {
+            display: inline-block;
+          }
+          .resource_team_online_current {
+            background: #70C15A;
+            height: 10px;
+            margin-right: 10px;
+          }
+          .resource_team_offline_current {
+            background: #fe861b;
+            height: 10px;
+            margin-right: 10px;
+          }
+          .resource_box_body_selector_item select {
+            width: 215px;
+            border-radius: 5px;
+            height: 35px;
+          }
+          .tips_user_input {
+            padding: 5px 0;
+            width: 215px;
+            border-radius: 5px;
+            height: 35px;
+          }
+          .resource_screen_active {
+            display: inline-block;
+            border-left: 1px solid #E8E8E8;
+            vertical-align: top;
+            text-align: center;
+            padding: 35px 10px;
+            height: 100px;
+            cursor: pointer;
+            background: url("/waiqin/public/images/command/assemble.png") no-repeat center 60px;
+          }
+          .resource_bottom_screen {
+            display: none;
+          }
+          .resource_bottom_active {
+            display: block;
+            padding-top: 24px;
+          }
+          .resource_bottom_select_event, .resource_bottom_select_team {
+            display: none;
+          }
+          .resource_bottom_select_event {
+            padding-top: 38px;
+          }
+          .mapRight_bottom {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            z-index: 10;
+          }
+          .mapRight_bottom .bottomLi {
+            margin-left: 11px;;
+            background-color: #000;
+            opacity: 0.5;
+            padding: 3px 15px;
+            cursor: pointer;
+            color: #fff;
+          }
+          .mapRight_bottom img {
+            margin-right: 5px;
+          }
+          .map_top {
+            z-index: 12;
+            color: #fff;
+            font-size: 25px;
+            text-align: center;
+            margin-top: 15px;
+          }
+          .resource_team_currentLi {
+            width: 200px;
+          }
+          .view {
+            display: none;
+          }
+          .cancel {
+            display: none;
+          }
+          .projector .active {
+            display: inline-block;
+          }
+          .info-pop {
+            width: 360px;
+            border: 1px solid silver;
+          }
+          .info-top {
+            font-size: 18px;
+            color: #fff;
+          }
+          .info-top .info-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition-duration: 0.25s;
+            cursor: pointer;
+          }
+          .info-top {
+            font-size: 16px;
+            font-weight: bolder;
+          }
+          .info-middle {
+            font-size: 12px;
+            padding: 0 20px 15px 20px;
+            line-height: 20px;
+            color: #666;
+          }
+          .info-middle div {
+            padding-top: 10px;
+            color: #000;;
+          }
+          .info-bottom img {
+            margin-left: 10px;;
+          }
+          .info-bottom {
+            position: relative;
+            top: 0;
+            margin: 0 auto;
+            color: #2c9ded;
+          }
+          .eventNumberCot {
+            font-size: 14px;
+          }
+          .infoUserOnline .info-top {
+            position: relative;
+            background: #6FC15B;
+            border-bottom: 1px solid #CCC;
+            padding: 15px 40px 15px 20px;;
+          }
+          .infoUserOnline .info-top .userType {
+            font-size: 14px;
+            font-weight: normal;
+          }
+          .infoUserOnline span {
+            margin-left: 5px;
+          }
+          .infoUserOnline span {
+            margin-left: 5px;
+          }
+          .infoUserOffline .info-top {
+            position: relative;
+            background: #eca029;
+            border-bottom: 1px solid #CCC;
+            padding: 15px 40px 15px 20px;;
+          }
+          .infoUserOffline .info-top .userType {
+            font-size: 14px;
+            font-weight: normal;
+          }
+          .infoUserOffline span {
+            margin-left: 5px;
+          }
+          .eventInfoGreat .info-top {
+            position: relative;
+            background: #d94647;
+            border-bottom: 1px solid #CCC;
+            padding: 15px 40px 15px 20px;;
+          }
+          .eventInfoGreat .info-bottom {
+            width: 100%;
+            border-top: 1px solid #eee;
+            background: #fff;
+            padding: 10px 0;
+            text-align: center;
+            cursor: pointer;
+          }
+          .eventInfoGreat .eventLevel {
+            color: #db4645;
+          }
+          .eventInfoNormal .info-top {
+            position: relative;
+            background: #576578;
+            border-bottom: 1px solid #CCC;
+            padding: 15px 40px 15px 20px;;
+          }
+          .eventInfoNormal .info-bottom {
+            width: 100%;
+            border-top: 1px solid #eee;
+            background: #fff;
+            padding: 10px 0;
+            text-align: center;
+            cursor: pointer;
+          }
+          .infoFence .info-top {
+            position: relative;
+            background: #2E9DED;
+            border-bottom: 1px solid #CCC;
+            padding: 15px 40px 15px 20px;;
+          }
+          .infoFence .info-bottom {
+            display: none;;
+            width: 100%;
+            border-top: 1px solid #eee;
+            background: #fff;
+            padding: 10px 0;
+            text-align: center;
+            cursor: pointer;
+          }
+          .fenceAlertSolve {
+            background: #70C15A;
+            width: 0;
+            height: 8px;
+          }
+          .fenceNoneSolve {
+            background: #FF861B;
+            width: 0;
+            height: 8px;
+          }
+          .alertSolveDesc, .noneSolveDesc {
+            margin-left: 5px;
+          }
+          .fenceMaker {
+            width: 43px;
+            height: 61px;
+            background: url("/waiqin/public/images/command/label_2.png") no-repeat;
+          }
+          .userMarkerOnline {
+            width: 48px;
+            height: 76px;
+            background: url("/waiqin/public/images/command/label_green.png") no-repeat;
+          }
+          .userMarkerOffline {
+            width: 48px;
+            height: 76px;
+            background: url("/waiqin/public/images/command/label_yellow.png") no-repeat;
+          }
+          .userName {
+            text-align: center;
+          }
+          .userLogo {
+            text-align: center;
+            line-height: 45px;
+          }
+          .userLogo img {
+            width: 42px;
+            height: 42px;
+          }
+          .eventMarkerGreat {
+            width: 43px;
+            height: 61px;
+            text-align: center;
+            line-height: 45px;
+            background: url("/waiqin/public/images/command/labelM_2.png") no-repeat;
+          }
+          .eventMarkerNormal {
+            width: 43px;
+            height: 61px;
+            text-align: center;
+            line-height: 45px;
+            background: url("/waiqin/public/images/command/labelM_3.png") no-repeat;
+          }
+          .infoWindow {
+            max-height: 400px;
+            overflow: auto;
+          }
+          /*围栏*/
+
+          .fenceList {
+            min-width: 400px;
+            border-radius: 5px;
+            background: #fff;;
+          }
+          .fenceList .closeBtn {
+            float: right;
+            position: absolute;
+            right: 10px;
+            top: 18px;
+            z-index: 10;
+            cursor: pointer;
+          }
+          .fenceList .fenceInfo {
+            padding: 20px;
+            /*background: #eee;;*/
+            margin-top: 10px;;
+            cursor: pointer;
+            border-bottom: solid 1px silver;
+          }
+          .fenceList .fenceTitle {
+            color: red;
+            width: 100%;
+            font-size: 16px;
+          }
+          .fenceList .fenceInfo div {
+            margin-top: 10px;;
+          }
+          .fenceList .fenceListTop {
+            background: #D94344;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bolder;
+          }
+          .fenceList:after {
+            position: absolute;
+            left: 47%;
+            margin-top: -1px;
+            content: '';
+            padding-top: 10px;
+            width: 100%;
+            background: url("/waiqin/public/images/command/triangle.png") no-repeat;
+          }
+          .fenceMask {
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+            position: absolute;
+            top: 0;
+          }
+          /*事件*/
+
+          .eventList {
+            min-width: 400px;
+            border-radius: 5px;
+          }
+          .eventList .eventInfoGreat .info-top {
+            color: #d94344;
+            padding: 15px 21px 0px 20px;
+          }
+          .eventList .eventInfoNormal .info-top {
+            color: #565656;
+            padding: 15px 21px 0px 20px;
+          }
+          .eventList .eventInfoGreat, .eventInfoNormal {
+            position: relative;
+            border: none;;
+            border-bottom: solid 1px silver;
+          }
+          .eventList .info-top {
+            font-size: 14px;
+            color: #000;
+            background: #fff;
+            border: none;
+            font-weight: bolder;
+          }
+          .eventList .info-top .info-close {
+            display: none;
+          }
+          .eventList .closeBtn {
+            float: right;
+            position: absolute;
+            right: 10px;
+            top: 18px;
+            z-index: 10;
+            cursor: pointer;
+          }
+          .eventList .rightDesc {
+            float: right;
+          }
+          .eventList .info-bottom {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            width: auto;
+            border: 0;
+            color: #2c9ded;
+          }
+          .eventList .eventListTop {
+            background: #D94344;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bolder;
+          }
+          .eventList:after {
+            position: absolute;
+            left: 47%;
+            margin-top: -1px;
+            content: '';
+            padding-top: 10px;
+            width: 100%;
+            background: url("/waiqin/public/images/command/triangle.png") no-repeat;
+          }
+          .userList {
+            min-width: 400px;
+            border-radius: 5px;
+          }
+          .userList .info-top {
+            background: #fff;
+            border: none;
+            font-size: 14px;
+            padding: 15px 40px 0 20px;
+            font-weight: normal;
+          }
+          .userList .infoUserOnline .info-top {
+            color: #6f6f6f;
+          }
+          .userList .infoUserOnline .info-top .userName {
+            color: #70C15A;
+          }
+          .userList .infoUserOffline .info-top {
+            color: #ECA225;
+          }
+          .userList .infoUserOffline, .infoUserOnline {
+            position: relative;
+            border: none;;
+            border-bottom: solid 1px silver;
+          }
+          .userList span {
+            margin-left: 0;
+          }
+          .userList .info-top .info-close {
+            display: none;
+          }
+          .userList .closeBtn {
+            float: right;
+            position: absolute;
+            right: 10px;
+            top: 18px;
+            z-index: 10;
+            cursor: pointer;
+          }
+          .userList .rightDesc {
+            float: right;
+          }
+          .userList .info-bottom {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: auto;
+            border: 0;
+            color: #2c9ded;
+          }
+          .userList .eventListTop {
+            background: #70C15A;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bolder;
+          }
+          .userList:after {
+            position: absolute;
+            left: 47%;
+            margin-top: -1px;
+            content: '';
+            padding-top: 10px;
+            width: 100%;
+            background: url("/waiqin/public/images/command/triangle.png") no-repeat;
+          }
+          .listTopNumber {
+            font-size: 14px;;
+            font-weight: normal;
+          }
+          .info-pop:after {
+            position: absolute;
+            left: 46%;
+            margin-top: -1px;
+            content: '';
+            padding-top: 10px;
+            width: 100%;
+            background: url("/waiqin/public/images/command/triangle.png") no-repeat;
+          }
+          /*隐藏导航条*/
+          .breadcrumbs-fixed {
+            /*display: none;*/
+          }
+          :-webkit-full-screen {
+            z-index: 500;
+          }
+          .fencNubmerAll {
+            font-weight: bolder;
+          }
+          .userNameTxt {
+            font-weight: bolder;
+          }
+          .userMarkerOffline, .userMarkerOnline .userName {
+            color: #fff;
+          }
+          .map_pop {
+            position: absolute;
+            left: 50%;
+            top: -50px;
+          }
+          .Mask {
+            display: none;
+            opacity: 0.1;
+            background-color: #000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9
+          }
+          .eventAddressTitle {;
+            vertical-align: top;
+          }
+          .eventAddressContent {
+            width: 270px;
+            vertical-align: top;
+          }
+          .pop_eventTitle {
+            color: #4B4B4B;
+            font-size: 16px;
+            font-weight: bolder;
+            margin-bottom: 20px;
+          }
+          .pop_eventNumber {
+            font-weight: normal;
+          }
+          .pop_eventStatu {
+            padding: 5px 10px;
+            background: #9b9b9b;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-left: 15px;
+            color: #fff;
+            font-weight: normal;
+          }
+          .pop_eventImg {
+            height: 282px;
+            width: 410px;
+            position: relative;
+          }
+          .pop_eventLevel {
+            font-size: 14px;
+            margin-top: 15px;
+          }
+          .pop_eventVoice {
+            height: 20px;
+            margin: 10px 0;
+          }
+          .pop_eventDesc {
+            border-bottom: 1px solid #DBDBDB;
+            margin: 20px;
+            padding: 20px 0
+          }
+          .pop_eventReport {
+            margin: 20px;
+          }
+          .pop_eventCont {
+            background: #EFEFEF;
+            color: #686868;
+          }
+          .pop_eventDesc div {
+            padding: 5px 0;
+          }
+          .pop_eventReport div {
+            padding: 5px 0;
+          }
+          .pop_eventDesc img {
+            margin-right: 5px;
+          }
+          .pop_eventTitle_closeImg {
+            position: absolute;
+            cursor: pointer;
+            top: 8px;
+            right: 10px;
+          }
+          .pop_eventLeftImgBtn {
+            padding: 10px 5px;
+            background: #000;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            opacity: 0.5;
+            margin-top: -22px;
+            cursor: pointer;
+          }
+          .pop_eventRightImgBtn {
+            padding: 10px 5px;
+            background: #000;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            opacity: 0.5;
+            margin-top: -22px;
+            cursor: pointer;
+          }
+          .pop_eventImgs {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            text-align: center;
+          }
+          .pop_eventImgs img {
+            max-height: 100%;
+            max-width: 100%;
+          }
+          .msg_box .pop {
+            position: absolute;
+            left: 50%;
+            top: -240px;
+            width: 480px;
+            padding: 30px 10px 30px 30px;
+            z-index: 2147483648;
+            background-color: #FFFFFF;
+            margin-left: -225px;
+          }
+          #map_w .pop {
+            position: absolute;
+            left: 50%;
+            top: 125px;
+            width: 480px;
+            padding: 30px 10px 30px 30px;
+            z-index: 2147483648;
+            background-color: #FFFFFF;
+            margin-left: -225px;
+          }
+          .Mask {
+            display: none;
+            opacity: 0.1;
+            background-color: #000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 9
+          }
+          .left_index_Img {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: #000;
+            border-radius: 10px;
+            padding: 3px 10px;
+            opacity: 0.3;
+            color: #fff;
+          }
+          .pop_content {
+            overflow: auto;
+            height: 470px;
+            padding-right: 30px;
+          }
+          .msg_box {
+            margin-top: -50px;
+          }
+          .userMarker_video {
+            position: absolute;
+            white-space: nowrap;;
+            background: #605f5a;
+            top: -30px;
+            color: #fff;;
+            line-height: 20px;
+            text-align: center;
+            left: -40%;
+            border-radius: 10px;
+            padding: 0 5px;
+          }
+          .userMarker_video img {
+            vertical-align: middle;
+            margin: 0 5px;
+          }
+          .userMarker_video .video_text {
+            display: inline-block;
+            vertical-align: middle;
+          }
+          .loadingVideo {
+          }
+          .video_status_text {
+            color: grey;
+          }
+          /*//动画*/
+
+          .signal {
+            top: -120px;
+            left: -20px;;
+            vertical-align: bottom;
+            text-align: center;
+            height: 183px;
+            min-height: 183px;
+            position: relative;
+            display: inline-block;
+            margin-right: 20px;
+          }
+          .signal img {
+            text-align: center;
+            vertical-align: middle;
+            display: none;
+            position: absolute;
+          }
+          .signal .signal_1 {
+            top: 75px;
+          }
+          .signal .signal_2 {
+            top: 64px;
+          }
+          .signal .signal_3 {
+            top: 52px;
+          }
+          .signal .signal_4 {
+            top: 39px;
+          }
+          .signal .signal_5 {
+            top: 25px;
+          }
+          .signal .signal_6 {
+            top: 12px;
+          }
+          .signal span {
+            display: inline-block;
+            height: 183px;
+            width: 35px;
+          }
+          .popDom {
+            padding: 10px 20px;
+            background: #0a6cd6;
+            display: inline-block;
+            cursor: pointer;
+            color: #fff;
+          }
+          .phone .phoneImg {
+            width: 10px;
+            height: 17px;
+            position: absolute;
+          }
+          .phone {
+            position: absolute;
+            top: 50px;
+            left: 285px;
+            display: none;
+          }
+          .phone .flicker {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 8px;
+            top: 5px;
+            display: none;
+          }
+          .signalAnimate {
+            position: relative;
+            top: -163px;
+            width: 360px;
+            left: -270px;
+            z-index: 1000000;
+            /*display: none;*/
+          }
+          .tpl_animate {
+            display: none;
+          }
+          ..user-info small {
+            font-size: 85%;
+          }
+
+
+        </style>
+        <object id="qavSdk"
+                classid="CLSID:DE40BADD-2131-4E8B-93CC-B5062F70B97B"
+                codebase="/waiqin/protected/components/qavsdk/qavsdk.cab#version=1,2"
+                width="0"
+                height="0"></object>
+
+        <div id="contain" style="position: relative;margin-top: 0;">
+          <style>
+
+            .list_container {
+              position: absolute;
+              left: 0;
+              top: 0;
+              z-index: 20;
+              background-color: white;
+              width: 280px;
+              margin: 15px;
+              border: 1px solid #EEEEEE;
+              box-shadow: 0 0 5px #ddd;
+              font-size: 14px;
+              border-radius: 8px;
+              display: none; /*border-top-right-radius: 8px;*/
+            }
+            .list_top {
+              width: 100%;
+              height: 40px;
+              text-align: center;
+              border-bottom: 1px solid #EEEEEE;
+              position: relative;
+              color: #616160;
+            }
+            .list_top_left {
+              margin-left: 10px;
+              line-height: 40px;
+              display: inline-block;
+              float: left;
+            }
+            .list_top_center {
+              font-weight: bold;
+              line-height: 40px;
+              display: inline-block;
+              margin-left: 10px;
+              float: left;
+            }
+            .list_top_right {
+              float: right;
+              padding: 0 5px 0 5px;
+              border-radius: 10px;
+              display: inline-block;
+              line-height: 18px;
+              margin-right: 10px;
+              margin-top: 11px;
+              font-size: 12px;
+              color: white;
+              background: #8AC0EC;
+            }
+            .list_middle {
+              max-height: 600px;
+              overflow-y: auto;
+              border-bottom-left-radius: 8px;
+              border-bottom-right-radius: 8px;
+            }
+            .list_bottom {
+              width: 100%;
+              height: 0px;
+              text-align: center;
+              background: #7e7e7e;
+              border-bottom-right-radius: 5px;
+              border-bottom-left-radius: 5px;
+              color: #fff;
+              display: none;
+            }
+            .list_bottom a {
+              text-decoration: none;
+              line-height: 40px;
+              color: #fff;;
+            }
+            .list_item {
+              width: 100%;
+              height: 140px;
+              border-bottom: 1px solid #EEEEEE;
+              cursor: pointer;
+              background: #fff;
+              padding: 15px 15px;
+            }
+            .list_item_top {
+              color: #626262;
+              font-size: 12px;
+            }
+            .list_item_bottom {
+              position: relative;
+            }
+            .list_item_bottom_left {
+              width: 72%;
+              height: 80px;
+              top: 0;
+              font-size: 12px;
+              display: inline-block;
+              position: absolute;
+            }
+            .list_item_bottom_left_item {
+              vertical-align: middle;
+            }
+            .list_item_bottom_left_location {
+              margin-bottom: 15px;
+            }
+            .list_item_bottom_left_time {
+              margin-bottom: 5px;
+            }
+            .list_item_bottom_left_icon {
+              width: 20px;
+              display: inline-block;
+              vertical-align: top;
+            }
+            .list_item_bottom_left_text {
+              overflow: hidden;
+              line-height: 24px;
+              max-height: 48px;
+              text-overflow: ellipsis;
+              display: inline-block;
+              max-width: 300px;
+              vertical-align: top;
+            }
+            .list_item_bottom_right {
+              width: 28%;
+              height: 80px;
+              top: 0;
+              right: 0;
+              display: inline-block;
+              position: absolute;
+            }
+            .list_item_bottom_right .watch_btn {
+              padding: 2px 5px 2px 5px;
+              border-radius: 5px;
+              line-height: 22px;
+              font-size: 12px;
+              float: right;
+              margin-top: 30px;
+              color: white; /*background: #5BA7E1;*/
+              cursor: pointer;
+            }
+            .list_item_empty_icon {
+              text-align: center;
+              margin-top: 22px;
+              margin-bottom: 6px;
+            }
+            .list_item_empty_text {
+              text-align: center;
+              font-size: 12px;
+              color: grey;
+            }
+            .list_item_more {
+              text-align: center;
+              height: 40px;
+              padding: 10px 20px;
+              cursor: pointer;
+              border-bottom: 1px solid #EEEEEE;
+            }
+            .video_container {
+              position: absolute;
+              left: 300px;
+              top: 0;
+              z-index: 20;
+              background-color: black;
+              width: 0;
+              height: 0;
+              box-shadow: 5px 0 5px #888888;
+              text-align: center;
+              display: none;
+            }
+            .video_container_inner {
+              width: 98.5%;
+              height: 80%;
+              top: 10%;
+              bottom: 10%;
+              position: relative;
+              margin-left: 0.75%;
+              margin-right: 0.75%;
+            }
+            .video_top {
+              height: 65px;
+              background: #2f2f2f;
+            }
+            .video_top_left {
+              display: inline-block;
+              float: left;
+              color: white;
+              font-size: 14px;
+              margin-left: 10px;
+              margin-top: 10px;
+              text-align: left;
+            }
+            .video_top_user_name {
+              font-weight: bold;
+            }
+            .video_top_right {
+              display: inline-block;
+              float: right;
+              margin-right: 5px;
+              margin-top: 15px;
+              cursor: pointer;
+            }
+            .video_main {
+              height: 82%;
+              width: 100%;;
+              background-color: #000;
+              text-align: center;;
+              position: relative;;
+            }
+            .video_main .loading {
+              top: 40%;
+              position: absolute;
+              color: #fff;
+            }
+            .video_main .playVideo_div {
+              width: 20px;
+              height: 20px;
+              background: #ccc;
+              display: none;
+              z-index: 10;
+              top: 50%;
+              left: 50%;
+              position: absolute;
+              margin: 0 auto;
+            }
+            .video_controller {
+              height: 60px;
+              background-color: #1A1A1A;
+            }
+            .video_controller_left {
+              display: inline-block;
+              float: left;
+              width: 200px;
+              text-align: left;
+            }
+            .video_controller_volume {
+              display: inline-block;
+              float: left;
+              margin-left: 10px;
+              margin-top: 14px;
+            }
+            .video_controller_slider {
+              display: inline-block;
+              float: right;
+              width: 75%;
+            }
+            .video_controller_center {
+              display: inline-block;
+              text-align: center;
+              color: white;
+              line-height: 60px;
+              font-size: 16px;
+            }
+            .video_controller_right {
+              display: inline-block;
+              float: right;
+              margin-right: 20px;
+              margin-top: 14px;
+              cursor: pointer;
+            }
+            .list_item .location {
+              color: #2f8dd5;
+              font-size: 14px;
+            }
+            .btn_volumn {
+              cursor: pointer;
+            }
+
+          </style>
+
+          <link rel="stylesheet" href="/waiqin/public/css/qavsdk/normalize.css"/>
+          <link rel="stylesheet" href="/waiqin/public/css/qavsdk/ion.rangeSlider.css"/>
+          <link rel="stylesheet" href="/waiqin/public/css/qavsdk/ion.rangeSlider.skinHTML5.css"/>
+
+          <div class="list_container">
+            <div class="list_top">
+              <span class="list_top_left"><img src="/waiqin/public/images/command/v_computer.png"/></span>
+              <span class="list_top_center">当前视频回传</span>
+            </div>
+            <div class="list_middle"></div>
+          </div>
+
+          <div class="video_container">
+            <div class="video_container_inner">
+              <div class="video_top">
+                <div class="video_top_left">
+                  <div class="video_top_left_line">
+                    <span class="video_top_user_name"></span>
+                    <span class="video_top_user_dept"></span>
+                  </div>
+                  <div class="video_top_location"></div>
+                </div>
+                <div class="video_top_right exit_btn">
+                  <img src="/waiqin/public/images/command/v_close_2.png"/>
+                </div>
+              </div>
+              <div class="video_main"></div>
+              <div class="video_controller">
+                <div class="video_controller_left">
+                  <div class="video_controller_volume">
+                    <img class="btn_volumn" src="/waiqin/public/images/command/v_volume.png"/>
+                  </div>
+                  <div class="video_controller_slider">
+                    <input type="text" class="player_volume" value="50" name="player_volume"/>
+                  </div>
+                </div>
+                <div class="video_controller_center"></div>
+                <div class="video_controller_right full_btn">
+                  <img src="/waiqin/public/images/command/v_full_screen.png"/>
+                </div>
+                <div class="video_controller_right shot_btn">
+                  <img src="/waiqin/public/images/command/v_Screenshot.png"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <script src="http://qzonestyle.gtimg.cn/open/qcloud/video/live/h5/live_connect.js"></script>
+          <script src="https://tls.qcloud.com/libs/api.min.js"></script>
+          <script src="/waiqin/public/js/qavsdk/ion.rangeSlider.min.js"></script>
+          <script src="/waiqin/public/js/qavsdk/webav_demo_base.js?v=3.5"></script>
+          <script src="/waiqin/public/jquery/jquery.color-2.1.2.js"></script>
+
+          <script>
+            var loginInfo = {"canLogin":true,"sdkAppID":"1400019851","accountType":"9300","identifier":"21","userSig":"eJxNjVFPgzAUhf9LXzXSFlvAZA8TWSS6sMQRmSFpKi1LNylYiowZ-7uMbMnu4-fdc84vWL**3fGiqDttmR0aCR4ABLcTVkJqq0olzQgxOlPeNEowbplrxNVzK-ZsUiND9xBCFPjkkpGHRhnJeGmnLkQ86sPTnf2PNK2q9WkGIoKwey2tquRU6tPAG4P4sqi2I15GaRg-l*jzi*YOfRxyZ3dYx4kX0ZS3-RAUXXKzIMesH-D3O6rhxp2raL5-iZTUWbj0VpiEut-mDokXME6tWNXwSXxUidlVbiZQF83A3z*80lbK"};
+
+            var mVideoWidth = 500;
+            var mVideoHeight = 300;
+            var mVideoContainerWidth = mVideoWidth + 300;
+
+            var mFlashInterval = null;
+            var mFlashElement = null;
+            var mListContainerHeight = 0;
+            var mIsVideoContainerShowing = false;
+            var mLastClickTime = new Date().getTime() - 2000;
+
+            var mVolumisMute = false;
+            var mCurrentVolum = 50;
+            var mLastVolumn = 50;
+
+            var mVideoIdNeedDelete = null;
+            var mNeedTipClientEnd = false;
+
+            var mCurrentBtn = null;
+
+            var currentVedioId = 0;
+
+            var userMark_Online;
+            var liveData;
+            var videoStatus = {
+              stop: 0,
+              none: 1,
+              playing: 2,
+              back: 3
+            };
+
+            $(document).ready(function () {
+              videoAnimate.hideVideoElements();
+              initIonRangeSlider();
+              setVideoContainerInnerBySettingHeight($('#map_w').height());
+
+              if (is32IE()) {
+                if (loginInfo.canLogin) {
+                  qavSdkLogin();
+                } else {
+                  Tip('视频发起方和观看方账号冲突');
+                  setTimeout(function () {
+                    window.location = '/waiqin/Login/Logout';
+                  }, 3000);
+                }
+              }
+
+              $('.list_container').on('click', '.list_item_more', function () {
+                if ($(this).data('offset')) {
+                  requestLiveData($(this).data('offset'));
+                }
+              }).on('click', '.list_item', function () {
+                if (!$(this).hasClass('list_item_empty')) {
+                  //立即观看
+                  if (isIE()) {
+                    if (window.navigator.platform == 'Win32') {
+
+                      userMark_Online = markers['user']['1'];
+                      currentVedioId = $(this).find('.watch_btn').data('id');
+
+
+                      var currentTime = new Date().getTime();
+                      if (currentTime - mLastClickTime > 2000) {
+
+                        mLastClickTime = currentTime;
+                        stopVideoAnimationOnMap();
+                        var clickUid = $(this).find('.watch_btn').data('uid').toString();
+                        if (currentId != null && clickUid != currentId) {
+                          setUserMarkStatu(videoStatus.none);
+                          showVideoStatusTip('视频切换中，请稍候');
+                          videoAnimate.resetPlayVideoDiv();
+                          cancelVideoView();
+                          exitRoom(true);
+                          setCurrentId(clickUid, $(this).find('.watch_btn'));
+                          exchangeActiveItem($(this));
+                          deleteEndOrErrorItem();
+                          startVideoAnimationOnMap();
+                        } else {
+                          toggleWatchBtn($(this).find('.watch_btn'));
+                        }
+
+                      }
+                    } else {
+                      Tip('请使用32位IE浏览器观看视频回传');
+                    }
+                  } else {
+                    Tip('请使用IE浏览器观看视频回传');
+                  }
+                }
+              }).on('mouseenter', '.list_item', function () {
+                if ($(this).is(':animated')) {
+                  stopFlashingAndMusic();
+                }
+              });
+
+              $('body').on('click', '.shot_btn', function () {
+                snapShotAndOutput();
+              }).on('click', '.full_btn', function () {
+                fullScreenVideoViewOutter();
+              }).on('click', '.exit_btn', function () {
+                videoAnimate.exitRoomAndhideVideoContainer();
+                if (userMark_Online.length != 0) {
+                  setUserMarkStatu(videoStatus.none);
+                  if (currentVedioMaker) {
+                    signalAnimate.stopAnimate();
+                  }
+                }
+              }).on('click', '.exit_full_btn', function () {
+                exitFullScreenVideoView();
+              }).on('click', '.btn_volumn', function () {
+                if (mVolumisMute) {
+                  setPlayerVolumn(mLastVolumn);
+                  mCurrentVolum = mLastVolumn;
+                  $('.player_volume').data('ionRangeSlider').update({from: mLastVolumn});
+                  mVolumisMute = false;
+                  $('.btn_volumn').attr('src', publicUrl + '/images/command/v_volume.png');
+                } else {
+                  mLastVolumn = mCurrentVolum;
+                  setPlayerVolumn(0);
+                  mCurrentVolum = 0;
+                  $('.player_volume').data('ionRangeSlider').update({from: 0});
+                  mVolumisMute = true;
+                  $('.btn_volumn').attr('src', publicUrl + '/images/command/volume_mute.png');
+                }
+              })
+            });
+
+
+            //动画       视频展开和收起动画
+            var videoAnimate = (function () {
+
+              function showVideoElements() {
+                //刚开始的 时候的状态判断
+
+                $('.video_top_left').show('slow');
+                $('.video_top_right').show('slow');
+                $('.video_controller_left').show('slow');
+                $('.video_controller_right').show('slow');
+                setVideoStatus_start();
+              }
+
+              function hideVideoContainer() {
+
+                videoAnimate.hideVideoElements();
+                if (Type.type_all == type) {
+                  videoAnimate.showResourceBox();
+                }
+                videoAnimate.resetPlayVideoDiv();
+                $('#map_w').animate({width: '+=' + mVideoContainerWidth, left: 0}, 100);
+                var $listItem = $('.list_item');
+                $listItem.attr('disabled', true);
+                $('.video_container').animate({width: '0px'}, 700, function () {
+                  $(this).hide();
+                  $('.list_container .location').animate({color: '#2f8dd5'}, 700);
+                  $('.list_container .list_item_bottom_left_time').animate({color: '#616160'}, 700);
+                  $('.list_top_center').animate({color: 'black'}, 200);
+                  $('.list_item_user_name').animate({color: '#616160'}, 200);
+                  $('.list_item_user_dept').animate({color: '#616160'}, 200);
+                  $('.list_top_left img').attr('src', '/waiqin/public/images/command/v_computer.png');
+
+                  $listItem.css({'background': '#fff'});
+                  mListContainerHeight = $listItem.length * 140 + 40;
+
+                  $('.list_middle').css({maxHeight: 600}).animate({height: mListContainerHeight - 40}, 200);
+                  $('.list_container').animate({
+                    borderRadius: 5,
+                    border: '1px solid #EEEEEE',
+                    backgroundColor: 'white',
+                    margin: 15,
+                    height: mListContainerHeight,
+                    width: '-=20'
+                  }, 200, 'swing', function () {
+                    $listItem.attr('disabled', false);
+                    $('.list_top').css({borderBottom: '1px solid #EEEEEE'});
+                    $('.list_item').css({borderBottom: '1px solid #EEEEEE'});
+                    $listItemMore = $('.list_item_more');
+                    if ($listItemMore) {
+                      $listItemMore.css({color: 'black', borderBottom: '1px solid #EEEEEE'}, 200);
+                    }
+                    mIsVideoContainerShowing = false;
+                    refreshAllData();
+                  });
+                });
+              }
+
+              function hideVideoElements() {
+                $('.video_top_left').hide();
+                $('.video_top_right').hide();
+                $('.video_controller_left').hide();
+                $('.video_controller_right').hide();
+              }
+
+              function showResourceBox() {
+                $('.resource_box').show('slow');
+                $('.map_top').show('slow');
+              }
+
+              function hideResourceBox() {
+                $('.resource_box').hide('slow');
+                $('.map_top').hide('slow');
+              }
+
+              function resetPlayVideoDiv() {
+                $(".video_main .playVideo_div").css({
+                  'left': '50%',
+                  'top': '50%',
+                  'width': '20px',
+                  'height': '20px',
+                  'display': 'none'
+                });
+              }
+
+              function exitRoomAndhideVideoContainer() {
+                $('.player_volume').data('ionRangeSlider').update({disable: false});
+                cancelVideoView();
+                exitRoom(false);
+                videoAnimate.hideVideoContainer();
+                $('.watch_btn').each(function (i, item) {
+                  if (currentId == $(item).data('uid')) {
+                    $(item).data('status', 0);
+                    $(item).find('img').attr('src', publicUrl + '/images/command/v_video_1.png');
+                  }
+                });
+              }
+
+              function showVideoContainer(callback) {
+                stopMusic();
+                mIsVideoContainerShowing = true;
+                var $mapContainer = $('#map_w');
+                $('.list_top').css({borderBottom: '1px solid #545454'});
+                $('.list_item').css({borderBottom: '1px solid #545454', background: '#363636'});
+                $('.list_middle').css({maxHeight: $mapContainer.height() - 40})
+                  .animate({height: $mapContainer.height() - 40}, 200);
+                $listItemMore = $('.list_item_more');
+                if ($listItemMore) {
+                  $listItemMore.css({color: '#C3C3C3', borderBottom: '1px solid #545454'}, 200);
+                }
+                $('.list_item .location').animate({color: '#ffffff', opacity: '0.9'}, 200);
+                $('.list_top_center').animate({color: 'white'}, 200);
+                $('.list_item_user_name').animate({color: '#C3C3C3'}, 200);
+                $('.list_item_user_dept').animate({color: '#C3C3C3'}, 200);
+                $('.list_item_bottom_left_item').animate({color: '#C3C3C3'}, 200);
+                $('.list_bottom .arrow').attr('src', '/waiqin/public/images/command/v_arrow_1.png');
+                $('.list_top_left img').attr('src', '/waiqin/public/images/command/v_computer_1.png');
+
+                $('.list_container').animate({
+                  borderRadius: 0,
+                  border: 0,
+                  backgroundColor: '#363636',
+                  margin: 0,
+                  height: $mapContainer.height(),
+                  width: '+=20'
+                }, 200, 'swing', function () {
+                  $mapContainer.animate({width: '-=' + mVideoContainerWidth, left: mVideoContainerWidth}, 700);
+                  $('.video_container').css({height: $mapContainer.height()})
+                    .show()
+                    .animate({width: mVideoWidth + 'px'}, 700, 'swing', callback);
+                });
+              }
+
+
+              //提供给外部的接口
+              return {
+                hideVideoElements: hideVideoElements,
+                showResourceBox: showResourceBox,
+                hideResourceBox: hideResourceBox,
+                exitRoomAndhideVideoContainer: exitRoomAndhideVideoContainer,
+                showVideoContainer: showVideoContainer,
+                showVideoElements: showVideoElements,
+                hideVideoContainer: hideVideoContainer,
+                resetPlayVideoDiv: resetPlayVideoDiv,
+              }
+            })();
+
+            function resetVideoContainerByHeight(newMapHeight) {
+              if (mIsVideoContainerShowing) {
+                $(".list_container").height(newMapHeight);
+                $(".list_middle").height(newMapHeight - 40);
+              }
+              $(".video_container").height(newMapHeight);
+              if (mVideoHeight > 0 && mVideoHeight < newMapHeight - 125) {
+                setVideoContainerInnerBySettingHeight(newMapHeight);
+              } else {
+                $(".video_container_inner").height(newMapHeight * 0.8);
+                $(".video_main").height(newMapHeight * 0.8 * 0.82);
+              }
+              $(".video_top").height(65);
+              $(".video_controller").height(60);
+              videoAnimate.resetPlayVideoDiv();
+            }
+
+            function setVideoContainerInnerBySettingHeight(mapHeight) {
+              if (mapHeight > window.screen.height) {
+                mapHeight = window.screen.height;
+              }
+              if (mVideoHeight > 0 && mVideoHeight < mapHeight - 125) {
+                var margin = (mapHeight - mVideoHeight - 125) / 2;
+                $(".video_container_inner").css({
+                  height: mVideoHeight,
+                  top: margin,
+                  bottom: margin
+                });
+                $(".video_main").height(mVideoHeight);
+              }
+            }
+
+            /************************
+             *********全屏相关********
+             ************************/
+            function fullScreenVideoViewOutter() {
+              var videoTopHeight = 40;
+              var videoControllerHeight = $('.video_controller').height();
+              addFullScreenBackground();
+              addFullScreenTop(videoTopHeight);
+              addFullScreenController(videoControllerHeight);
+              fullScreenVideoView(videoTopHeight, videoTopHeight + videoControllerHeight);
+            }
+
+            function getFullScreenTarget() {
+              return isJudge_var.isFullScreen ? '#contain' : 'body';
+            }
+
+            function addFullScreenBackground() {
+              $videoBgFull = $('.video_bg_full');
+              if ($videoBgFull) {
+                $videoBgFull.remove();
+              }
+              $('<div class="video_bg_full"></div>').appendTo(getFullScreenTarget()).css({
+                width: '100%',
+                height: $(window).height(),
+                position: 'absolute',
+                left: 0, top: 0,
+                zIndex: 9998,
+                backgroundColor: '#838383'
+              });
+            }
+
+            function addFullScreenTop(height) {
+              $videoTopFull = $('.video_top_full');
+              if ($videoTopFull) {
+                $videoTopFull.remove();
+              }
+              $('<div class="video_top_full"></div>').appendTo(getFullScreenTarget()).css({
+                width: '100%',
+                height: height,
+                position: 'absolute',
+                left: 0, top: 0,
+                zIndex: 9999,
+                backgroundColor: 'black'
+              }).append('<div class="video_top_left">'
+                + '     <div class="video_top_left_line">'
+                + '         <span class="video_top_user_name"></span>'
+                + '         <span class="video_top_user_dept"></span>　'
+                + '         <span class="video_top_location"></span>'
+                + '     </div>'
+                + '   </div>');
+              setVideoUserInfo();
+            }
+
+            function addFullScreenController(height) {
+              $videoControllerFull = $('.video_controller_full');
+              if ($videoControllerFull) {
+                $videoControllerFull.remove();
+              }
+              $('<div class="video_controller_full"></div>').appendTo(getFullScreenTarget()).css({
+                width: '100%',
+                height: height,
+                position: 'absolute',
+                left: 0, bottom: 0,
+                zIndex: 9999,
+                backgroundColor: '#1A1A1A'
+              }).append('<div class="video_controller_left">'
+                + '         <div class="video_controller_volume">'
+                + '             <img class="btn_volumn" src="/waiqin/public/images/command/v_volume.png"/>'
+                + '         </div>'
+                + '         <div class="video_controller_slider">'
+                + '             <input type="text" class="player_volume" value="' + mCurrentVolum + '" name="player_volume"/>'
+                + '         </div>'
+                + '   </div>'
+                + '   <div class="video_controller_center"></div>'
+                + '   <div class="video_controller_right exit_full_btn">'
+                + '         <img src="/waiqin/public/images/command/v_exit_full.png"/>'
+                + '   </div>'
+                + '   <div class="video_controller_right shot_btn">'
+                + '         <img src="/waiqin/public/images/command/v_Screenshot.png"/>'
+                + '   </div>');
+              $('.video_controller_full .video_controller_center').css({width: $(window).width() - 360});
+              initIonRangeSlider();
+            }
+
+
+            /**************************
+             ********视频相关***********
+             **************************/
+            function initIonRangeSlider() {
+              $('.player_volume').ionRangeSlider({
+                type: 'single',
+                min: 0,
+                max: 100,
+                hide_min_max: true,
+                hide_from_to: true,
+                grid: false,
+                force_edges: true,
+                keyboard: true,
+                step: 1,
+                keyboard_step: 1,
+                onFinish: function (data) {
+                  setPlayerVolumn(data.from);
+                  mCurrentVolum = data.from;
+                  if (mCurrentVolum > 0) {
+                    mVolumisMute = false;
+                    $('.btn_volumn').attr('src', publicUrl + '/images/command/v_volume.png');
+                  } else {
+                    mVolumisMute = true;
+                    $('.btn_volumn').attr('src', publicUrl + '/images/command/volume_mute.png');
+                  }
+                }
+              });
+            }
+
+            function resetIonRangeSlider() {
+              var $slider = $('.video_controller_slider');
+              if ($slider) {
+                $slider.remove();
+                $('.video_controller_left').append('<div class="video_controller_slider">'
+                  + '<input type="text" class="player_volume" value="' + mCurrentVolum + '" name="player_volume"/>'
+                  + '</div>');
+                initIonRangeSlider();
+              }
+            }
+
+            function exchangeActiveItem($item) {
+              var $listItems = $('.list_item');
+              $listItems.css({background: '#363636'});
+              $listItems.find('.watch_btn').data('status', 0);
+              $listItems.find('img').attr('src', publicUrl + '/images/command/v_video_1.png');
+              $item.css({background: '#2e7db8'});
+              $item.find('.watch_btn').data('status', 1);
+              $item.find('img').attr('src', publicUrl + '/images/command/v_living.gif');
+            }
+
+            function setListItemStatus(statu) {
+              var currentItem = null;
+              $(".list_item").each(function (i, M) {
+                if ($(M).find(".watch_btn").data("id") == currentVedioId) {
+                  currentItem = $(M);
+                }
+              });
+              if (currentItem) {
+                currentItem.data('status', 0);
+                if (statu == videoStatus.stop) {
+                  currentItem.find('img').attr('src', publicUrl + '/images/command/v_end.png');
+                } else if (statu == videoStatus.playing) {
+                  currentItem.find('img').attr('src', publicUrl + '/images/command/v_video_1.png');
+                }
+
+              }
+            }
+
+            function toggleWatchBtn($btn) {
+              stopFlashingAndMusic();
+              if ($btn.data('status') == 0) {
+                //开始观看
+                $btn.data('status', 1);
+                $btn.find('img').attr('src', publicUrl + '/images/command/v_living.gif');
+
+                $(".video_controller").hide();
+                $(".video_top").hide();
+                videoAnimate.showVideoContainer(function () {
+                  //动画完毕过后的回调  按钮才能点击
+                  var currentListItem = $btn.parent().parent().parent();
+                  currentListItem.css({"background": '#2e7db8'});
+                  currentListItem.find('.list_item_user_name').css({'color': '#fff'});
+                  currentListItem.find('.list_item_user_dept').css({'color': '#fff'});
+                  currentListItem.find('.list_item_bottom_left_time').css({'color': '#fff'});
+                  if (isJudge_var.isFullScreen) {
+                    currentMapWidth = $("#map_w").width() - 190;
+                  } else {
+                    currentMapWidth = $("#map_w").width();
+                  }
+                  var uid = $btn.data('uid').toString();
+                  if (currentId == null) {
+                    setCurrentId(uid, $btn);
+                  }
+                  enterRoom(currentId);
+                  videoAnimate.showVideoElements();
+                });
+                startVideoAnimationOnMap();
+                videoAnimate.hideResourceBox();
+              } else {
+                $btn.data('status', 0);
+                $btn.find('img').attr('src', publicUrl + '/images/command/v_video_1.png');
+                stopVideoAnimationOnMap();
+                videoAnimate.exitRoomAndhideVideoContainer();
+                if (userMark_Online.length != 0) {
+                  setUserMarkStatu(videoStatus.none);
+                  if (currentVedioMaker) {
+                    signalAnimate.stopAnimate();
+                  }
+                }
+              }
+            }
+
+
+            function startVideoAnimationOnMap() {
+              if (userMark_Online.length != 0) {
+                setUserMarkStatu();
+                if (currentVedioMaker) {
+                  signalAnimate.startAnimates();
+                }
+              }
+            }
+
+            function stopVideoAnimationOnMap() {
+              if (userMark_Online.length != 0) {
+                if (currentVedioMaker) {
+                  signalAnimate.stopAnimate();
+                }
+              }
+            }
+
+            function setCurrentId(uid, $btn) {
+              currentId = uid;
+              mCurrentBtn = $btn;
+              setVideoUserInfo();
+            }
+
+            function setVideoUserInfo() {
+              if (mCurrentBtn != null) {
+                $('.video_top_user_name').text(mCurrentBtn.data('user'));
+                $('.video_top_user_dept').text('（' + mCurrentBtn.data('dept') + '）');
+                $('.video_top_location').text(mCurrentBtn.data('loc'));
+              }
+            }
+
+            var currentMapWidth;
+
+
+            function refreshAllData() {
+              var $refreshBtn = $('.refresh_btn');
+              if ($refreshBtn) {
+                $refreshBtn.click();
+              }
+            }
+
+
+            /*******************************
+             * 轮询获取数据相关
+             * ****************************/
+
+
+            function requestLiveData(offset) {
+              if (loginInfo.canLogin) {
+                stopMusic();
+                $('.list_item_more').html('加载中...');
+                var reqData = {};
+                if (offset) {
+                  reqData = {offset: offset}
+                }
+                $.ajax({
+                  url: '/waiqin/live/livingList',
+                  data: reqData,
+                  type: 'post',
+                  dataType: 'json',
+                  success: function (res) {
+                    if (mNeedTipClientEnd) {
+                      Tip('对方中断了视频回传', false, 3000);
+                      mNeedTipClientEnd = false;
+                    }
+                    if (res['ok']) {
+                      if (!offset) {
+                        $(".list_middle").html('');
+                      }
+                      //循环添加点  如果没有右边的情况下  如果 有右边的情况下   还是由 右边的来决定  通过某个量来判断
+                      $('.list_item_more').remove();
+                      liveData = res['data'];
+
+                      createLiveList(res['data']);
+                      operateListItemSkin(false);
+                      if (Type.type_live == type || Type.type_all == type) {
+                        if (liveData['list'].length > 0) {
+//                                alert('设置点');
+                          addVideoMarker(liveData['list']);
+                        }
+
+                      }
+
+                    }
+                  }
+                });
+              }
+            }
+
+
+            var newDataInterval = null;
+            function requestNewestLiveData() {
+              if (loginInfo.canLogin) {
+                if (!newDataInterval) {
+                  newDataInterval = setInterval(function () {
+                    getNewestLiveData();
+                  }, 5000);
+                }
+              }
+            }
+
+            function getNewNowLiveStatus() {
+              if (navigator.onLine) {
+                $.ajax({
+                  url: '/waiqin/live/livingstatus',
+                  data: {id: currentVedioId},
+                  type: 'post',
+                  dataType: 'json',
+                  success: function (res) {
+                    if (res['ok']) {
+                      if (res['data']['is_back']) {
+                        $('.video_controller_center').html('');
+                        setUserMarkStatu(videoStatus.back);
+                      } else if (res['data']['is_end']) {
+                        setVideoEnd();
+                      } else if (res['data']['is_error']) {
+                        setVideoEnd();
+                        setVideoErrorEnd();
+                      } else if (res['data']['is_interrupt']) {
+                        $('.video_controller_center').html('传输中断，正在重试...');
+                      } else if (res['data']['is_mute']) {
+                        $('.video_controller_center').html('对方切断视频声音');
+                      } else {
+                        $('.video_controller_center').html('');
+                      }
+                    }
+                  }
+                });
+              } else {
+                showVideoStatusTip('当前网络不可用，请检查您的网络设置');
+                setVideoInterrupt();
+              }
+            }
+
+            function showVideoStatusTip(msg) {
+              $('.video_main .playVideo_div').hide();
+              $(".loading").css({left: (mVideoWidth - 231) / 2}).show();
+              $(".loading .video_status_text").show();
+              cancelVideoView();
+              $('.video_status_text').text(msg);
+            }
+
+            function setVideoInterrupt() {
+              exitFullScreenVideoView();
+              clearRequestViewInterval();
+              requestViewList();
+              requestViewInterval = setInterval(function () {
+                requestViewList();
+              }, 5000);
+            }
+
+            function setVideoEnd() {
+              exitFullScreenVideoView();
+              setUserMarkStatu(videoStatus.stop);
+              setListItemStatus(videoStatus.stop);
+              stopVideoAnimationOnMap();
+              mNeedTipClientEnd = true;
+              $('.exit_btn').click();
+            }
+
+            function setVideoErrorEnd() {
+              $.ajax({
+                url: '/waiqin/live/errorEnd' + '?id=' + currentVedioId,
+                data: {},
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                  if (res['ok']) {
+
+                  }
+                }
+              });
+            }
+
+            function deleteEndOrErrorItem() {
+              if (mVideoIdNeedDelete) {
+                var $deleteItem = null;
+                $(".list_item").each(function (index, item) {
+                  if ($(item).find(".watch_btn").data("id") == mVideoIdNeedDelete) {
+                    $deleteItem = $(item);
+                  }
+                });
+                if ($deleteItem) {
+                  $deleteItem.hide('slow', function () {
+                    $deleteItem.remove();
+                  });
+                }
+              }
+            }
+
+            function getNewestLiveData() {
+              $.ajax({
+                url: '/waiqin/live/newestLivingData',
+                data: {},
+                type: 'post',
+                dataType: 'json',
+                success: function (res) {
+                  if (res['ok']) {
+                    createNewestLive(res['data']);
+                  }
+                }
+              });
+            }
+
+            function createNewestLive(resData) {
+              if (resData.list.length > 0) {
+                for (var i = 0; i < resData.list.length; i++) {
+                  var newItem = resData.list[i];
+                  transitionVedioDataKeyToMarkerData(newItem);
+                  moduleMap_report.addUserMarker(newItem);
+                  if (userIdNoExist(newItem['uid'])) {
+                    resetItemBorder();
+
+                    var $liveItem = $(createLiveItem(newItem));
+                    stopFlashing();
+                    mFlashElement = $liveItem;
+                    if ($liveItem) {
+                      var $itemEmpty = $('.list_item_empty');
+                      if ($itemEmpty) {
+                        $itemEmpty.hide();
+                        $itemEmpty.remove();
+                      }
+                    }
+                    $liveItem.hide().prependTo('.list_middle').slideDown('slow', function () {
+                      startFlashing();
+                    });
+                  }
+                }
+                operateListItemSkin(true);
+              }
+            }
+
+            function startFlashing() {
+              $('.list_item').first().css({height: 144, border: '2px solid #FF9933'});
+              playMusic();
+
+
+              mFlashInterval = setInterval(function () {
+                mFlashElement.animate({borderColor: '#EEEEEE'}, 250)
+                  .animate({borderColor: '#FF9933'}, 250);
+              }, 500);
+            }
+
+            function stopFlashing() {
+              if (mFlashInterval != null) {
+                clearInterval(mFlashInterval);
+              }
+            }
+
+            function resetItemBorder() {
+              if (mFlashElement != null && mFlashElement.is(':animated')) {
+                mFlashElement.stop(true);
+              }
+              if (mIsVideoContainerShowing) {
+                $('.list_item').css({height: 140, border: 0, borderBottom: '1px solid #545454', borderColor: '#545454'});
+              } else {
+                $('.list_item').css({height: 140, border: 0, borderBottom: '1px solid #EEEEEE', borderColor: '#EEEEEE'});
+              }
+            }
+
+            function caculateListContainerHeight() {
+              var itemCount = $('.list_container .list_item').length;
+              if (itemCount >= 4) {
+                return 600;
+              }
+              return itemCount * 140 + 40;
+            }
+
+            function operateListItemSkin(isNew) {
+              mListContainerHeight = caculateListContainerHeight();
+              if (mIsVideoContainerShowing) {
+                $('.list_item').css({padding: '15px 15px', borderBottom: '1px solid #545454', 'background': '#363636'});
+                $(".list_item .location").css({color: '#fff', opacity: '0.9'});
+                $('.list_item_user_name').css({color: '#C3C3C3'});
+                $('.list_item_user_dept').css({color: '#C3C3C3'});
+                $('.list_item_bottom_left_item').css({color: '#C3C3C3'});
+              } else {
+                var middleHeight = isNew ? mListContainerHeight - 36 : mListContainerHeight - 40;
+                $('.list_container').animate({height: mListContainerHeight}, 200);
+                $('.list_middle').animate({height: middleHeight}, 200);
+                $('.list_item').css({padding: '15px 15px', borderBottom: '1px solid #EEEEEE', 'background': '#fff'});
+                $(".list_item .location").css({color: '#2f8dd5'});
+                $('.list_item_user_name').css({color: '#626262'});
+                $('.list_item_user_dept').css({color: '#626262'});
+                $('.list_item_bottom_left_item').css({color: '#626262'});
+              }
+            }
+
+            function userIdNoExist(uid) {
+              var currentUids = [];
+              $(".list_item").each(function (index, item) {
+                currentUids.push($(item).find(".watch_btn").data("uid"));
+              });
+              for (var i = 0; i < currentUids.length; i++) {
+                if (currentUids[i] == uid) {
+                  return false;
+                }
+              }
+              return true;
+            }
+
+            function hideVideoAnimateForOnly() {
+
+              videoAnimate.hideVideoElements();
+              if (Type.type_all == type) {
+                videoAnimate.showResourceBox();
+              }
+              videoAnimate.resetPlayVideoDiv();
+              $('#map_w').animate({width: '+=' + mVideoContainerWidth, left: 0}, 700);
+              $('.video_container').animate({width: '0px'}, 700, function () {
+                $(this).hide();
+                $('.list_container .location').animate({color: '#2f8dd5'}, 700);
+                $('.list_container .list_item_bottom_left_time').animate({color: '#616160'}, 700);
+                $('.list_top_center').animate({color: 'black'}, 200);
+                $('.list_item_user_name').animate({color: '#616160'}, 200);
+                $('.list_item_user_dept').animate({color: '#616160'}, 200);
+                $('.list_top_left img').attr('src', '/waiqin/public/images/command/v_computer.png');
+
+                var $listItem = $('.list_item');
+                $listItem.css({'background': '#fff'});
+                mListContainerHeight = $listItem.length * 140 + 40;
+
+                $('.list_middle').css({maxHeight: 600}).animate({height: mListContainerHeight - 40}, 200);
+                $('.list_container').animate({
+                  borderRadius: 5,
+                  border: '1px solid #EEEEEE',
+                  backgroundColor: 'white',
+                  margin: 15,
+                  height: mListContainerHeight,
+                  width: '-=20'
+                }, 200, 'swing', function () {
+                  $('.list_top').css({borderBottom: '1px solid #EEEEEE'});
+                  $('.list_item').css({borderBottom: '1px solid #EEEEEE'});
+                  $listItemMore = $('.list_item_more');
+                  if ($listItemMore) {
+                    $listItemMore.css({color: 'black', borderBottom: '1px solid #EEEEEE'}, 200);
+                  }
+                });
+              });
+            }
+
+            function createLiveList(resData) {
+              currentVedioId = 0;
+              var count = resData.list.length;
+              var $listMiddle = $('.list_middle');
+
+              if (count > 0) {
+                for (var i = 0; i < count; i++) {
+                  $listMiddle.append(createLiveItem(resData.list[i]));
+                }
+                if (resData.hasMore) {
+                  $listMiddle.append('<div class="list_item_more" data-offset="' + resData.offset + '">点击加载更多...</div>');
+                }
+              } else {
+                if (mIsVideoContainerShowing) {
+                  videoAnimate.hideVideoContainer();
+                }
+                $listMiddle.append(createEmptyItem());
+              }
+            }
+
+            function createLiveItem(data) {
+              return '<div class="list_item">'
+                + '     <div class="list_item_bottom">'
+                + '         <div class="list_item_bottom_left">'
+                + '             <div class="list_item_bottom_left_item">'
+                + '             <div class="list_item_bottom_left_item">'
+                + '                 <div class="list_item_bottom_left_text list_item_bottom_left_location location">' + data['location'] + '</div>'
+                + '             </div>'
+                + '                 <div class="list_item_bottom_left_time">' + data['start_time'] + '&nbsp;发起</div>'
+                + '             </div>'
+                + '     <div class="list_item_top">'
+                + '         <span class="list_item_user_name">' + data['user_name'] + '</span>'
+                + '         <span class="list_item_user_dept">' + '-&nbsp' + data['dept_name'] + '' + '</span>'
+                + '     </div>'
+                + '         </div>'
+                + '         <div class="list_item_bottom_right">'
+                + '             <span class="watch_btn" data-id="' + data['id'] + '" data-loc="' + data['location'] + '" data-dept="' + data['dept_name']
+                + '" data-user="' + data['user_name'] + '" data-status="0" data-uid="' + data['uid'] + '"><img src=' + publicUrl + '"/test/images/command/v_video_1.png"> </span>'
+                + '         </div>'
+                + '     </div>'
+                + ' </div>';
+            }
+
+            function createEmptyItem() {
+              return '<div class="list_item list_item_empty">'
+                + '     <div class="list_item_empty_icon">'
+                + '         <img src=' + publicUrl + '"/test/images/command/v_emptied.png"/>'
+                + '     </div>'
+                + '     <div class="list_item_empty_text">当前没有视频回传</div>'
+                + ' </div>';
+            }
+
+
+            //设置地图上 marker的状态
+            function setUserMarkStatu(statu) {
+              currentVedioMaker = null;
+
+              //设置地图点的中心为 需要播放的那个marker点
+              setMarkerToMapCenter();
+
+              $.each($(".userMarkerOnline"), function (i, M) {
+                if (M && (M.getAttribute('data-videoid') == currentVedioId)) {
+                  currentVedioMaker = $(M);
+                }
+              });
+
+              if (currentVedioMaker) {
+                if (statu == 2 || statu == 3) {
+                  //正在播放
+//                alert('1111');
+                  currentVedioMaker.find('.userMarker_video').css({'background': '#4197d5', 'left': '-95%'});
+                  currentVedioMaker.find(".video_text").html("视频回传 - 播放中")
+                } else if (statu == 0) {
+                  //结束播放
+                  currentVedioMaker.find('.userMarker_video').css({'background': '#4197d5', 'left': '-95%'});
+                  currentVedioMaker.find(".video_text").html("视频回传  -- 已结束");
+                } else {
+                  currentVedioMaker.find('.userMarker_video').css({'background': '#605f5a', 'left': '-40%'});
+                  currentVedioMaker.find(".video_text").html("视频回传")
+                }
+              }
+            }
+
+
+            /******************************************************************
+             *********************信号波动画**************************************
+             * ****************************************************************/
+
+
+            var currentTime = 0;
+            var intervalInAnimate;
+            var intervalOutAnimate;
+
+            var currentVedioMaker;
+            var intervalArray = [];
+            var flickerAnimateInterval = null;
+            //开始播放的时候获取 轮训当前状态
+            var videoStatusInterval = null;
+
+            var currentMarkerLatLng;
+
+
+            function startVideoStatusInterval() {
+              videoStatusInterval = setInterval(function () {
+                getNewNowLiveStatus();
+              }, 5000);
+            }
+
+            function clearVideoStatusInterval() {
+              if (videoStatusInterval) {
+                clearInterval(videoStatusInterval);
+              }
+            }
+
+            function setVideoStatus_start() {
+              var html = '';
+              html += '<div class="loading">';
+              html += '<img class="loadingVideo" src="/waiqin/public/images/command/pc_animate.gif">';
+              html += '<div class="video_status_text">视频加载中,  请稍候</div>';
+              html += '</div>';
+              html += '<div class="playVideo_div" style="display: none"></div>';
+              $(".video_main").html(html);
+
+              $(".loading").css({left: (mVideoWidth - 231) / 2});
+
+              setMarkerToMapCenter();
+
+              if (!navigator.onLine) {
+                showVideoStatusTip('当前网络不可用，请检查您的网络设置');
+              }
+            }
+
+            function setMarkerToMapCenter() {
+              if (userMark_Online) {
+                $.each(userMark_Online, function (i, M) {
+                  if (M && (M.extData.videoId == currentVedioId)) {
+                    currentMarkerLatLng = [M.getPosition().lng - 0.0002, M.getPosition().lat + 0.0006];
+                  }
+                });
+                if (currentMarkerLatLng) {
+                  mapObj.setZoomAndCenter(20, currentMarkerLatLng);
+                }
+              }
+            }
+
+
+            var signalAnimate = (function () {
+
+              function resetAnimateValue() {
+                //重新设置 各项dom元素的属性
+                currentTime = 0;
+                var top = 0;
+                var left = 0;
+                if (currentVedioMaker) {
+                  currentVedioMaker.find(".signalAnimate").fadeOut('fast');
+                  currentVedioMaker.find(".phone .phoneImg").animate({
+                    height: '10px',
+                    width: '17px',
+                    top: top,
+                    left: left
+                  });
+                  currentVedioMaker.find(".signal img").fadeOut('fast');
+                  currentVedioMaker.find(".signal").removeClass('active');
+                }
+              }
+
+              //开始动画
+              function startAnimates() {
+                $.each($(".userMarkerOnline"), function (i, M) {
+                  if (M.getAttribute('data-videoid') == currentVedioId) {
+                    currentVedioMaker = $(M);
+                  }
+                });
+                currentVedioMaker.find(".signalAnimate").show();
+                currentVedioMaker.find(".phone").show();
+                var statu = 1;
+                if (currentVedioMaker.find(".signal").hasClass('active')) {
+                  statu = 2;
+                }
+                var left = '-40px';
+                var top = '-165px';
+                currentVedioMaker.find(".phone .phoneImg").animate({
+                  height: '163px',
+                  width: '95px',
+                  top: top,
+                  left: left
+                }, function () {
+
+                  flickerAnimateInterval = setInterval(function () {
+                    currentVedioMaker.find('.phone .flicker').css({
+                      'top': '-159px',
+                      'left': '-32px',
+                      'display': 'inline-block'
+                    });
+                    currentVedioMaker.find('.phone .flicker').fadeOut().fadeIn();
+                  }, 200);
+
+                  signalAnimate.startAnimate(statu);
+                });
+              }
+
+              function startAnimate(statu) {
+                if (statu == 1) {
+                  intervalInAnimate = setTimeout(sendSignalFirst, 100);
+                } else if (statu == 2) {
+                  intervalOutAnimate = setTimeout(sendSignal, 100);
+                }
+
+              }
+
+              function sendSignalFirst() {
+                var i = 1;
+                var allI = $(".signal img").length;
+                allI = 7;
+                var allTime = allI * 20;
+                var interval;
+                interval = setInterval(function () {
+                  //内循环   i次   五个图片 就五次
+                  var currentDom = currentVedioMaker.find(".signal_" + i + "");
+                  currentDom.fadeIn();
+                  i++;
+                  //intervalArray.push(interval);
+                  if (i > allI) {
+                    window.clearInterval(interval);
+                    signalAnimate.startAnimate(2);
+                  }
+                  //每次 让当前的元素  淡入淡出
+                }, allTime);
+                currentVedioMaker.find(".signal").addClass('active');
+              }
+
+              var sendSignalInterval = null;
+
+              function sendSignal() {
+                var i = 1;
+                var allI = currentVedioMaker.find(".signal img").length;
+                allI = 7;
+                var allTime = allI * 20;
+                sendSignalInterval = setInterval(function () {
+                  //内循环   i次   五个图片 就五次
+                  var j;
+                  if (i == 1) {
+                    j = 7;
+                  } else {
+                    j = i - 1;
+                    allI = 7 + 1;
+                  }
+                  var currentDomNext = currentVedioMaker.find(".signal_" + j + "");
+                  var currentDom = currentVedioMaker.find(".signal_" + i + "");
+                  currentDom.fadeOut('fast');
+                  currentDomNext.fadeIn('fast');
+                  i++;
+
+                  if (i > allI) {
+                    window.clearInterval(sendSignalInterval);
+                    signalAnimate.startAnimate(2);
+                  }
+                  //每次 让当前的元素  淡入淡出
+                }, allTime);
+
+              }
+
+              function stopAnimate() {
+                resetAnimateValue();
+                clearAnimationIntervals();
+              }
+
+              function clearAnimationIntervals() {
+                if (flickerAnimateInterval) {
+                  clearInterval(flickerAnimateInterval);
+                }
+                if (sendSignalInterval) {
+                  clearInterval(sendSignalInterval);
+                }
+                if (intervalInAnimate) {
+                  clearTimeout(intervalInAnimate);
+                }
+                if (intervalOutAnimate) {
+                  clearTimeout(intervalOutAnimate);
+                }
+              }
+
+              return {
+                clearAnimationIntervals: clearAnimationIntervals,
+                stopAnimate: stopAnimate,
+                sendSignal: sendSignal,
+                sendSignalFirst: sendSignalFirst,
+                startAnimate: startAnimate,
+                startAnimates: startAnimates,
+                resetAnimateValue: resetAnimateValue
+
+              }
+            })();
+
+
+            var playMusicInterval = null;
+            var audioElement = null;
+
+
+            function stopFlashingAndMusic() {
+              resetItemBorder();
+              stopFlashing();
+              stopMusic();
+            }
+
+            function transitionVedioDataKeyToMarkerData(data) {
+              data['sort'] = 1;
+              data['loc_name'] = data['location'];
+              data['name'] = data['user_name'];
+              data['loc_time'] = data['start_time'];
+              data['video_id'] = data['id'];
+            }
+            function addVideoMarker(data) {
+              $.each(data, function (i, M) {
+                transitionVedioDataKeyToMarkerData(M);
+                if (M.lng > 0.000000001 && M.lat > 0.000000001) {
+                  moduleMap_report.addUserMarker(M);//加点  视频回传的点
+                  if (M.id == currentVedioId && mIsVideoContainerShowing) {
+                    setTimeout(function () {
+                      setUserMarkStatu(videoStatus.playing);
+                    }, 1000);
+                  }
+                }
+              });
+            }
+
+
+            function playMusic() {
+              if (!audioElement) {
+                audioElement = document.createElement('audio');
+                audioElement.setAttribute('src', '/waiqin/public/audio/command/music.mp3');
+                audioElement.setAttribute('autoplay', 'autoplay');
+                $.get();
+                if (videoIsPlaying) {
+                  audioElement.volume = 0.5;
+                }
+              }
+              if (!playMusicInterval) {
+                playMusicInterval = setInterval(function () {
+                  audioElement.play();
+                }, 16000);
+              }
+            }
+
+            function stopMusic() {
+              if (audioElement) {
+                audioElement.pause();
+                audioElement = null;
+              }
+              if (playMusicInterval) {
+                clearInterval(playMusicInterval);
+              }
+            }
+
+            /**
+             * 检测浏览器缩放比
+             */
+            function detectBrowserZoom() {
+              var ratio = 0,
+                screen = window.screen,
+                ua = navigator.userAgent.toLowerCase();
+
+              if (window.devicePixelRatio !== undefined) {
+                ratio = window.devicePixelRatio;
+              } else if (~ua.indexOf('msie')) {
+                if (screen.deviceXDPI && screen.logicalXDPI) {
+                  ratio = screen.deviceXDPI / screen.logicalXDPI;
+                }
+              } else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+                ratio = window.outerWidth / window.innerWidth;
+              }
+
+              if (ratio) {
+                ratio = Math.round(ratio * 100);
+              }
+              return ratio;
+            }
+
+          </script>        <div id="map_w" style="position: relative">
+
+          <div class="Mask"></div>
+          <div class="map_pop"></div>
+          <div class="mapRight_bottom">
+        <span class="projector bottomLi">
+            <span id="view-fullscreen" class="view active"> <img
+              src="/waiqin/public/images/command/v_big_screen.png"><span>上大屏模式</span></span>
+            <span id="cancel-fullscreen" class="cancel"> <img
+              src="/waiqin/public/images/command/exit_full-.png"><span>退出上大屏模式</span></span>
+        </span>
+
+            <span class="refresh_btn bottomLi"><img
+              src="/waiqin/public/images/command/refresh.png">刷新</span>
+          </div>
+          <div class="map_top">
+            视频回传        </div>
+
+          <div class="resource_box">
+
+            <div class="resource_top">
+
+            <span class="resource_classifyLi resource_top_team ">
+                 <span class="resource_name">队员</span>
+                <img class="resource_call" src="/waiqin/public/images/command/called.png">
+            </span>
+              <span class="resource_classifyLi resource_top_event ">
+                  <span class="resource_name ">事件</span>
+                <img class="resource_call" src="/waiqin/public/images/command/called.png">
+            </span>
+              <span class="resource_classifyLi resource_top_fence ">
+                <span class="resource_name ">围栏</span>
+                <img class="resource_call" src="/waiqin/public/images/command/called.png">
+            </span>
+              <span class=" resource_screen">筛选</span>
+
+            </div>
+            <div class="resource_bottom">
+
+              <div class="resource_bottom_team">
+                <div class="resource_bottomLi resource_address">
+                  <div class="resource_bot_content">
+                    <div class="resource_bot_content_li resource_team_online">在线
+                      <span class="resource_team_online_current"></span><span
+                        class="resource_team_online_currentTxt">0</span>人
+                    </div>
+                    <div class="resource_bot_content_li resource_team_offline">失联
+                      <span class="resource_team_offline_current"></span><span
+                        class="resource_team_offline_currentTxt">0</span>人
+                    </div>
+                    <div class="resource_bot_content_li resource_team_des">(地图上显示<span
+                      class="offline_count_map">0</span>人
+                      无法获取最后位置<span
+                        class="offline_count_none">0</span>人)
+                    </div>
+                  </div>
+                  <a href="/waiqin/location" class="rightOpen"
+                     src="/waiqin/public/images/command/arrow.png" target="_blank"></a>
+                </div>
+                <div class="resource_bottomLi  body_info_alarm">
+                  <a href="/waiqin/alarm"                             target="_blank">
+                    本日新增上报事件
+                    <span class="resource_bottomLi_Number"><span>0</span>例</span>
+                    <span class="rightOpen"></span>
+                  </a>
+                </div>
+                <div class="resource_bottomLi  body_info_fence">
+                  <a href="/waiqin/locationSetting/fence"                             target="_blank">
+                    当前围栏总数
+                    <span class=" resource_bottomLi_Number"><span>0</span>个</span>
+                    <span class="rightOpen"></span>
+                  </a>
+                </div>
+              </div>
+              <div class="resource_bottom_screen ">
+                <div class="resource_bottom_selector">
+
+                  <div class="resource_bottom_select_team">
+                    <div class="resource_box_body_selector_label">队员显示：</div>
+                    <div class="resource_box_body_selector_item">
+                      <label class="checkbox_label selector_user_online">
+                        <input type="checkbox" name="selector_user_online" value="1" checked="checked"/>在线
+
+                      </label>
+                      <label class="checkbox_label selector_user_offline">
+                        <input type="checkbox" name="selector_user_offline" value="1"/>失联(有最后位置)
+
+                      </label>
+                    </div>
+                  </div>
+                  <form class="selector_form" method="post">
+                    <div class="resource_bottom_select_event">
+                      <div class="resource_box_body_selector_label">事件显示：</div>
+                      <div class="resource_box_body_selector_item">
+                        事件大类&nbsp;&nbsp;<select name="selector_alarm_type" id="selector_alarm_type">
+                        <option value="" selected="selected">选择事件大类</option>
+                        <option value="1">市容环境</option>
+                        <option value="22">宣传广告</option>
+                        <option value="28">施工管理</option>
+                        <option value="35">突发事件</option>
+                        <option value="47">街面秩序</option>
+                        <option value="62">扩展事件</option>
+                      </select>                                </div>
+                      <div class="resource_box_body_selector_item">
+                        事件小类&nbsp;&nbsp;<select name="selector_alarm_type_child" id="selector_alarm_type_child">
+                        <option value="" selected="selected">无</option>
+                      </select>                                </div>
+                      <div class="resource_box_body_selector_item">
+                        事件等级&nbsp;&nbsp;<select name="selector_alarm_level" id="selector_alarm_level">
+                        <option value="" selected="selected">选择事件等级</option>
+                        <option value="80">1</option>
+                        <option value="81">2</option>
+                        <option value="82">3</option>
+                      </select>                                </div>
+                      <div class="resource_box_body_selector_item">
+                        上报部门&nbsp;&nbsp;<div class="search_form_box" style="position: relative;"><span class="search_form_title"></span><div class="tree_box"><div class="select_box"><input readonly="readonly" id="tree_input" name="selector_dept_name" type="text" value="全部"><i class="icon icon-caret-down"></i></div><input value="" id="tree_input_hidden" name="selector_dept_id" type="hidden" /><div id="menuContent"><div id="tree_data"></div><a href="javascript:void(0);" class="btn btn-sm btn-info tree_ok_btn">确定</a></div></div></div>                                </div>
+                      <div class="resource_box_body_selector_item search_tips_box">
+                        <span class="search_title">　上报人&nbsp;&nbsp;</span>
+
+                        <div class="search_input">
+                          <input value="" name="selector_user_name" class="tips_user_input" type="text">
+
+                          <div class="tips_box">
+                            <ul id="search_ul_deal"></ul>
+                          </div>
+                        </div>
+                        <div class="resource_box_body_selector_btns">
+                          <span class="btn btn-xs btn-info search_submit_btn">提交</span>
+                          <span class="btn btn-xs btn_format search_cancel_btn">取消</span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="resource_bottom_fence">
+              </div>
+            </div>
+          </div>
+
+          <div id="map" style="width: 100%;height: 100%;"></div>
+          <div class="fenceMask"></div>
+        </div>
+
+
+          <div class="tpl_animate">
+            <div class="signalAnimate">
+              <div class="signal">
+
+            <span>
+                 <img class="signal_7" src="/waiqin/public/images/command/7.png">
+            </span>
+                <span>
+                <img class="signal_6" src="/waiqin/public/images/command/6.png">
+            </span>
+                <span style="">
+                 <img class="signal_5" src="/waiqin/public/images/command/5.png">
+            </span>
+                <span>
+                <img class="signal_4" src="/waiqin/public/images/command/4.png">
+            </span>
+                <span>
+                 <img class="signal_3" src="/waiqin/public/images/command/3.png">
+            </span>
+                <span>
+                 <img class="signal_2" src="/waiqin/public/images/command/2.png">
+            </span>
+                <span>
+                <img class="signal_1" src="/waiqin/public/images/command/1.png">
+            </span>
+
+              </div>
+              <div class="phone"><img class="phoneImg" src="/waiqin/public/images/command/x1.png">
+                <img class="flicker" src="/waiqin/public/images/command/ing.png">
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <script src="/waiqin/public/components/user_tree.js"></script>
+        <script src="/waiqin/public/components/auto_complete_searcher.js"></script>
+        <script src="/waiqin/public/plugins/map/MapSDK.js"></script>
+        <script src="/waiqin/public/jquery/jquery.resize.js"></script>
+
+        <script>
+
+          dealFirefoxUI();
+
+          var $alarmSubTypes = eval({"1":{"":"\u65e0","2":"\u79c1\u642d\u4e71\u5efa","3":"\u5e9f\u5f03\u5bb6\u5177\u8bbe\u5907","4":"\u6c34\u57df\u79e9\u5e8f\u95ee\u9898","5":"\u66b4\u9732\u5783\u573e","6":"\u975e\u88c5\u9970\u6027\u6811\u6302","7":"\u711a\u70e7\u5783\u573e","8":"\u6811\u53f6","9":"\u79ef\u5b58\u5783\u573e\u6e23\u571f","10":"\u9053\u8def\u7834\u635f","11":"\u6cb9\u70df\u6c61\u67d3","12":"\u9053\u8def\u4e0d\u6d01","13":"\u6cb3\u5824\u7834\u635f","14":"\u52a8\u7269\u5c38\u4f53\u6e05\u7406","15":"\u6c34\u57df\u4e0d\u6d01","16":"\u9053\u8def\u9057\u6492","17":"\u64c5\u81ea\u9972\u517b\u5bb6\u79bd\u5bb6\u755c","18":"\u7eff\u5730\u810f\u4e71","19":"\u5efa\u7b51\u7269\u5916\u7acb\u9762\u4e0d\u6d01","20":"\u5176\u5b83\u5e02\u5bb9\u73af\u5883\u95ee\u9898","21":"\u5e9f\u5f03\u8f66\u8f86"},"22":{"":"\u65e0","23":"\u975e\u6cd5\u5c0f\u5e7f\u544a","24":"\u5360\u9053\u5e7f\u544a\u724c","25":"\u5e7f\u544a\u62db\u724c\u7834\u635f","26":"\u8fdd\u7ae0\u5f20\u8d34\u60ac\u6302\u5e7f\u544a\u724c\u533e","27":"\u8857\u5934\u6563\u53d1\u5e7f\u544a"},"28":{"":"\u65e0","29":"\u65bd\u5de5\u6270\u6c11","30":"\u65bd\u5de5\u5e9f\u5f03\u6599","31":"\u65e0\u8bc1\u6398\u8def","32":"\u5de5\u5730\u626c\u5c18","33":"\u65bd\u5de5\u5360\u9053","34":"\u5176\u5b83\u65bd\u5de5\u7ba1\u7406\u95ee\u9898"},"35":{"":"\u65e0","36":"\u8def\u9762\u584c\u9677","37":"\u70ed\u529b\u7ba1\u9053\u7834\u88c2","38":"\u7fa4\u53d1\u6027\u4e8b\u4ef6","39":"\u81ea\u6765\u6c34\u7ba1\u7834\u88c2","40":"\u9053\u8def\u79ef\u6c34","41":"\u71c3\u6c14\u50a8\u7f50\u7834\u88c2","42":"\u71c3\u6c14\u7ba1\u9053\u7834\u88c2","43":"\u9053\u8def\u79ef\u96ea\u7ed3\u51b0","44":"\u5176\u5b83\u7a81\u53d1\u4e8b\u4ef6","45":"\u4e0b\u6c34\u9053\u5835\u585e\u6216\u7834\u635f","46":"\u67b6\u7a7a\u7ebf\u7f06\u635f\u574f"},"47":{"":"\u65e0","48":"\u65e0\u7167\u7ecf\u8425\u6e38\u5546","49":"\u975e\u673a\u52a8\u8f66\u4e71\u505c\u653e","50":"\u6cbf\u8857\u667e\u6302","51":"\u6d41\u6d6a\u4e5e\u8ba8","52":"\u4e71\u5806\u7269\u5806\u6599","53":"\u975e\u6cd5\u51fa\u7248\u7269\u9500\u552e","54":"\u5360\u9053\u5e9f\u54c1\u6536\u8d2d","55":"\u5546\u4e1a\u566a\u97f3","56":"\u7a7a\u8c03\u5ba4\u5916\u673a\u4f4e\u6302","57":"\u5e97\u5916\u7ecf\u8425","58":"\u9ed1\u8f66\u62c9\u5ba2","59":"\u5176\u5b83\u8857\u9762\u79e9\u5e8f\u95ee\u9898","60":"\u673a\u52a8\u8f66\u4e71\u505c\u653e","61":"\u9732\u5929\u70e7\u70e4"},"62":{"":"\u65e0","63":"\u5360\u9053\u4ece\u4e8b\u975e\u4ea4\u901a\u6d3b\u52a8","64":"\u514b\u9686\u51fa\u79df\u6c7d\u8f66","65":"\u9053\u8def\u6cfc\u6492\u6e23\u571f","66":"\u751f\u6d3b\u5783\u573e","67":"\u8fdd\u6cd5\u8fdd\u89c4\u9053\u8def\u5f00\u53e3","68":"\u51fa\u79df\u6c7d\u8f66\u8425\u8fd0\u8fdd\u7ae0","69":"\u6295\u8bc9\u548c\u5931\u7269","70":"\u8fdd\u89c4\u8bbe\u7f6e\u9632\u76d7\u7b3c","71":"\u5e7f\u544a\u724c\u906e\u6321\u4ea4\u901a\u6807\u5fd7","72":"\u6807\u724c","73":"\u4fe1\u53f7\u706f","74":"\u8def\u706f\u4e0d\u4eae","75":"\u5f00\uff08\u5173\uff09\u706f\u8fc7\u65e9\u3001\u8fc7\u665a","76":"\u767d\u5929\u9ad8\u4eae\u5ea6\u6761\u4ef6\u4e0b\u8fc7\u5ea6\u4eae\u706f","77":"\u4ea4\u901a\u79e9\u5e8f\u6df7\u4e71","78":"\u516c\u5171\u505c\u8f66\u573a\u64c5\u81ea\u505c\u6b62\u4f7f\u7528\u6216\u6539\u4e3a\u4ed6\u7528","79":"\u8f66\u8f86\u5192\u9ed1\u70df"}});
+          var type = eval(3);
+          var onePerson = 1;
+          var mapObj;
+          var tree_obj;
+
+          var params = {
+            'show_user': '1',
+            'show_alarm': '0',
+            'show_fence': '0'
+          };
+          var $show_user = 1;
+          var $show_alarm = 0;
+          var $show_fence = 0;
+
+
+          var data_var = {
+            tree_data: eval([{"id":"8","name":"wj","nodeId":"0","is_node":true,"is_check":false},{"id":"9","name":"\u4e00\u4e2d\u961f","nodeId":"8","is_node":false,"is_check":false}]),
+            choose_data: eval({"id":[],"nodeId":[""]}),
+            AllData: null,
+            searchData: null
+          };
+
+          var htmlDom_var = {
+            $contain: $("#contain"),
+            $map_w: $('#map_w'),
+            $win: $(window)
+          };
+          var map_var = {
+            userAllNum: 0,
+            userOfflineNum: 0,
+            userOnlineNum: 0,
+            currentPointFenceList: [],
+            currentPoint: {},
+            videoMarkerArray: []
+          };
+
+          var isJudge_var = {
+            isOpen: false,           //是否打开新窗口
+            isFullScreen: false,     //是否上大屏
+            isScreenEvent: false,    //是否有筛选
+            alarmSwitch: false       //事件开关是否开启
+          };
+
+          var ajaxUrl = {
+            commandIndex_url: '/waiqin/command/index',
+            alarmInfo_url: '/waiqin/command/alarmInfo',
+            post_url: '/waiqin/command/selectResource'
+          };
+
+          var imgUrl = {
+            clusterEventImg: "/waiqin/public/images/command/label_more_2.png",
+            clusterUserImg: "/waiqin/public/images/command/label_green_1.png",
+            closeImg_url: "/waiqin/public/images/command/close.png",
+            videoIcoImg: "/waiqin/public/images/command/v_video.png",
+            event2Img: "/waiqin/public/images/command/icon_event_2.png",
+            moreImg: "/waiqin/public/images/command/more.png"
+          };
+
+          var Type = {
+            type_live: 1,
+            type_report: 2,
+            type_all: 3
+          };
+
+          var markers = {
+            'user': {
+              '1': [],//在线
+              '2': [],//失联
+              'all': []//所有
+            },
+            'event': {
+              '0': [],//重要
+              '1': [],//普通
+              'all': []//所有
+            },
+            'fence': {
+              'all': [],//所有
+              '1': [],//圆
+              '2': []//多变形
+            }
+          };
+          var hasLiveAuth = typeof mIsVideoContainerShowing !== 'undefined';
+          var isFull;
+          var eventInfoList = [];
+          var markerUserCluster;//用户的聚合变量  每次都不一样
+          var markerEventCluster;//事件的聚合变量
+
+          var infoWindows = {};
+
+          var fence;
+          var selector_alarm_typeV;
+          var selector_alarm_type_childV;
+          var selector_alarm_levelV;
+          var selector_dept_nameV;
+          var selector_user_nameV;
+
+          var tip;
+
+          $('.rightOpen').click(function () {
+            if (isJudge_var.isFullScreen) {
+              var $cancelFullBtn = $('#cancel-fullscreen');
+              if ($cancelFullBtn) {
+                $cancelFullBtn.click();
+              }
+            }
+          });
+
+          function dealFirefoxUI() {
+            var isFirefox = typeof InstallTrigger !== 'undefined';
+            if (isFirefox) {
+              $('#map_w').css('margin-top', '20px');
+              var $list_container = $('.list_container');
+              if ($list_container) {
+                $list_container.css('margin-top', '35px');
+              }
+            }
+          }
+
+        </script>
+
+
+        <script src="/waiqin/public/js/command/command_moduleFunc.js"></script>
+        <script src="/waiqin/public/js/command/command_initData.js"></script>
+
+        <script src="/waiqin/public/js/command/command_index.js"></script>
+        <script src="/waiqin/public/js/command/command_event.js"></script>
+      </div>
+      <!-- 弹出对话框开始 -->
+      <div class="modal fade" id="adminModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 style="font-weight: bold;" class="modal-title" id="adminModalLabel">标题</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary" id="adminSubmit">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹出对话框结束 -->
+      <!-- 弹出扩展对话框开始 -->
+      <div class="modal fade" id="adminModal_ext" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 style="font-weight: bold;" class="modal-title" id="adminModalLabel">标题</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary" id="adminSubmit_ext">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹出对话框结束 -->
+      <!-- 弹出删除对话框开始 -->
+      <div class="modal fade" id="adminModalDelete" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <input id="the_do_url" type="hidden" href=""/>
+              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-sm btn-primary" id="adminDeleteSubmit">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹出删除对话框结束 -->
+      <!-- 弹出确定对话框开始 -->
+      <div class="modal fade" id="adminModalOp" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">取消</button>
+              <button url="" type="button" class="btn btn-sm btn-primary" id="adminOpSubmit">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 弹出确定对话框结束 -->
+    </div>
+
+  </div>
+</div>
+
+
+<script src="/waiqin/public/jquery/jquery.dataTables.min.js"></script>
+<script src="/waiqin/public/jquery/jquery.dataTables.bootstrap.js"></script>
+<script src="/waiqin/public/js/md5.min.js"></script>
+<!-- 语音 -->
+<script src="/waiqin/public/plugins/audio/soundmanager2-nodebug-jsmin.js"></script>
+
+<!-- 搜索名称-->
+<script src="/waiqin/public/js/typeahead-bs2.min.js"></script>
+<!-- 图片弹窗-->
+<script src="/waiqin/public/jquery/jquery.colorbox-min.js"></script>
+<script src="/waiqin/public/js/imgview/imgview.js"></script>
+
+<!-- 文件上传-->
+<script src="/waiqin/public/js/upload/ajaxfileupload.js"></script>
+<script src="/waiqin/public/js/admin.js"></script>
+<script src="/waiqin/public/DatePicker/WdatePicker.js"></script>
+<script src="/waiqin/public/js/chosen.jquery.min.js"></script>
+<!--找人的树状结构-->
+<script src="/waiqin/public/js/fuelux/data/fuelux.tree-sampledata.js"></script>
+<script src="/waiqin/public/js/fuelux/fuelux.tree.min.js?11"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .map_container {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div>Marker test</div>
+
+<div id="container" class="map_container"></div>
+
+<script src="../../../dist/vendor/jquery-3.1.1.min.js"></script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=319766fcdf57589d1da6e0dfc89770d2"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=h733PD7WQgKZYRotiD19oK0w0y6sz0QC"></script>
+<script src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjPUco3l_6-f8ZexAesZrYFzpGtRQHvSo"></script>
+
+<script>
+    SMapConfig = {
+        SMap_target_type: 'g', //a,b,g
+    };
+</script>
+<script src="../../../dist/temp.js"></script>
+
+
+<script>
+    var smap = new SMap.Map('container', {
+        resizeEnable: true,
+        zoom: 13,
+        center: [104.077955, 30.444575]
+    });
+
+    var offset = new SMap.Pixel(-15, -34);
+    var icon = 'http://fhj.xbwq.com.cn/fhj/public/common/widget/module/location/track/images/track/track_map2_start.png';
+
+    var marker = new SMap.Marker({
+        icon: icon,
+        offset: offset,
+        position: new SMap.LngLat(104.077955, 30.477575),
+        extData: {iconval: 11, iconval_s: 22},
+        visible: true,
+        title: 'hello world111111111111',
+        zIndex: 10,
+        content: 'c1'   //自定义点标记覆盖物内容
+    });
+    marker.setMap(smap);
+
+
+    var marker2 = new SMap.Marker({
+        icon: icon,
+        offset: offset,
+        position: new SMap.LngLat(104.047955, 30.477575),
+        extData: {iconval: 11, iconval_s: 22},
+        visible: true,
+        title: 'hello world 22',
+        zIndex: 10,
+        content: 'cc22'   //自定义点标记覆盖物内容
+    });
+    marker2.setMap(smap);
+
+    var marker3 = new SMap.Marker({
+        icon: icon,
+        offset: offset,
+        position: new SMap.LngLat(104.017955, 30.477575),
+        extData: {iconval: 11, iconval_s: 22},
+        visible: true,
+        title: 'hello world 22',
+        zIndex: 10,
+        content: 'ccc333'   //自定义点标记覆盖物内容
+    });
+    marker3.setMap(smap);
+
+
+
+    marker.on('click', markerHandler);
+
+    function markerHandler() {
+        console.log("you click me!");
+        iw.open(smap);
+    }
+
+    var iw = new SMap.InfoWindow({
+        content: 'Hello SMap',
+        position: [104.077955, 30.477575],
+    });
+    iw.on('closeclick', function (e) {
+        console.log("你点击了关闭");
+    });
+
+
+//    var markers = [];
+//    var cluster;
+//    var sts = [{
+//        url: "http://localhost:/test/map/img/m2.png",
+//        size: new SMap.Size(32, 32),
+//        offset: new SMap.Pixel(-16, -30)
+//    }, {
+//        url: "http://localhost:/test/map/img/m2.png",
+//        size: new SMap.Size(32, 32),
+//        offset: new SMap.Pixel(-16, -30)
+//    }, {
+//        url: 'http://localhost:/test/map/img/m2.png',
+//        size: new SMap.Size(48, 48),
+//        offset: new SMap.Pixel(-24, -45),
+//        textColor: '#CC0066'
+//    }];
+//
+//    var markerArr = [
+//        [116.403322, 39.920255],
+//        [116.410703, 39.897555],
+//        [116.402292, 39.892353],
+//        [116.389846, 39.891365]
+//    ];
+//
+//    markerArr.forEach(function (item) {
+//        var t = new SMap.Marker({
+//            position: item,
+//            title: 'hello world'
+//        });
+//        t.setMap(smap);
+//        console.log(t);
+//        markers.push(t);
+//    });
+//
+//    smap.plugin([SMap.sPlugin.MarkerClusterer], function () {
+//        console.log("hello");
+//
+//        cluster = new SMap.MarkerClusterer(smap, markers, {
+//            styles: sts
+//        });
+//        console.log('cluster is: ', cluster)
+//
+//    });
+
+//
+//    var bounds = new SMap.Bounds({lng: 116.397428, lat: 39.90923});
+//
+//    console.log('bounds', bounds);
+//
+//    var mapBounds = smap.getBounds();
+//
+//    console.log('mapBounds', mapBounds);
+
+</script>
+
+</body>
+</html>

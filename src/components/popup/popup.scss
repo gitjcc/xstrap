@@ -1,0 +1,10 @@
+//插件-弹窗
+.x-pop-main{position:absolute;width:600px;box-sizing:border-box;padding:15px;background:#fff;top:0;border-radius:4px;z-index:30}
+
+.x-pop-layer{position:fixed;width:100%;height:100%;top:0;background:rgba(0,0,0,0.2);z-index:20}
+.x-pop-close{position:absolute;right:15px;top:15px;cursor:pointer}
+.x-pop-close i{font-size:20px;}
+.x-pop-title{ height:30px;line-height:30px;padding-left:10px;border-bottom:1px solid #eee;font-size:16px;font-weight:bold;color:#666;}
+.x-pop-content{padding:10px;border-bottom:1px solid #eee;max-height:600px;overflow:auto;}
+.x-pop-button{text-align: right;font-size:14px;}
+.x-pop-button button{display:inline-block;text-align:center; margin-left:10px; margin-top:15px;border:none; color:#fff;outline:none; cursor:pointer}

@@ -1,0 +1,10 @@
+@import "../themes/variable";
+
+.x-page {line-height: 28px;}
+.x-page-total {@include inlineBlock;}
+.x-page-pages {@include inlineBlock;float: right;border-right: 1px solid $borderColorDeep;color: $baseColorMain;}
+.x-page-pages li,.x-page-pages select{float: left;border: 1px solid $borderColorDeep;border-right: none;cursor: pointer;}
+.x-page-pages li a,.x-page-pages select{padding:0 15px;}
+.x-page-pages select{height: 30px;}
+.x-page-pages .x-active,.x-page-pages li:hover{color:set-notification-text-color($baseColorMain);background: $baseColorMain;}
+

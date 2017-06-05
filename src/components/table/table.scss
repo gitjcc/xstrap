@@ -1,0 +1,63 @@
+
+@import '../../common/styles/themes/variable';
+
+.x-table{width:100%;border-collapse: collapse;margin:20px 0;}
+.x-table thead {background:$bgColorLight;}
+.x-table th,.x-table td{position:relative;height:36px;border:1px solid $borderColorLight;font-size:$baseFontSize;}
+.x-table th{cursor:pointer;}
+.x-table tr:hover{background: $bgColorLight;}
+
+
+
+.x-table-arrowDown{
+  position:absolute;
+  top:16px;
+  right:10px;
+  width:0;
+  height:0;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-top:5px solid #333;
+}
+
+.x-table-arrowUp{
+  position:absolute;
+  top:16px;
+  right:10px;
+  width:0;
+  height:0;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-bottom:5px solid #333;
+}
+
+.x-table-arrow{
+  position:absolute;
+  display:inline-block;
+  padding:1px 2px;
+  top:18px;
+  right:15px;
+}
+
+
+
+.x-table-arrow:before{
+  position:absolute;
+  display:block;
+  content:"";
+  top:-5px;
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-bottom:5px solid #333;
+}
+
+.x-table-arrow:after{
+  position:absolute;
+  display:block;
+  content:"";
+  border-left:4px solid transparent;
+  border-right:4px solid transparent;
+  border-top:5px solid #333;
+}
+
+

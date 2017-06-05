@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .map_container {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div>bmap test</div>
+<button id="button">点这里点这里</button>
+
+<div id="container" class="map_container"></div>
+
+<script src="../../dist/vendor/jquery-3.1.1.min.js"></script>
+<script src="http://webapi.amap.com/maps?v=1.3&key=319766fcdf57589d1da6e0dfc89770d2"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=h733PD7WQgKZYRotiD19oK0w0y6sz0QC"></script>
+<script src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+<script src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjPUco3l_6-f8ZexAesZrYFzpGtRQHvSo"></script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
+
+<script>
+    SMapConfig = {
+        SMap_target_type: 'b'
+    };
+</script>
+
+
+<script src="../../dist/temp.js"></script>
+
+
+<script>
+    function Bmarker(opt) {
+        opt.icon = new BMap.Icon(opt.icon, new BMap.Size(36, 36));//opt.icon由String转换为BMap.Icon类型，大小36*36
+        opt.offset = new BMap.Size(opt.offset.x, opt.offset.y);//opt.offset由BMap.Pixel转换为BMap.Size类型
+        this.content = opt.content;
+        BMap.Marker.call(this, opt.position, opt);//继承BMap.Marker属性
+        var that = this;
+        this.setMap = function (map) {
+            map.addOverlay(this);
+            if (opt.content) {
+                setTimeout(function () {
+                    var div = $(that.xc).find('>div');
+                    div.html(opt.content);
+                    div.css({'background': '#178', 'font-size': '12px'});
+                }, 0)
+            }
+        }
+        console.log(this);
+    }
+    Bmarker.prototype = new BMap.Marker();//继承BMap.Marker方法
+</script>
+
+
+<script>
+    var bmapmap = new BMap.Map("container");
+    bmapmap.centerAndZoom(new BMap.Point(104.070955, 30.487575), 15);
+    bmapmap.enableScrollWheelZoom();
+
+    var icon = 'http://fhj.xbwq.com.cn/fhj/public/common/widget/module/location/track/images/track/track_map2_start.png';
+    var offset = new BMap.Pixel(-15, -34);
+    var c = {
+        icon: icon,
+        offset: offset,
+        position: new BMap.Point(104.070955, 30.487575),
+        extData: {iconval: 11, iconval_s: 22},
+        visible: true,
+        title: 'hello world 111',
+        zIndex: 10,
+        content: '自定义点标记覆盖物内容'   //自定义点标记覆盖物内容
+    };
+
+
+    var Bmarker = new Bmarker(c);
+    Bmarker.setMap(bmapmap);
+    console.log('自定义marker', Bmarker);
+    Bmarker.addEventListener('click', function () {
+        alert('CLICK : 自定义Marker,Bmarker');
+    })
+
+    var c2 = {
+        icon: new BMap.Icon(icon, new BMap.Size(36, 36)),
+        offset: new BMap.Size(offset.x, offset.y),
+        position: new BMap.Point(104.070955, 30.490575),
+        extData: {iconval: 11, iconval_s: 22},
+        visible: true,
+        title: 'hello world 222',
+        zIndex: 10,
+        content: '定义点标记内容 222'   //自定义点标记覆盖物内容
+    };
+    var bmapmarker = new BMap.Marker(c2.position, c2);
+    bmapmap.addOverlay(bmapmarker);
+    console.log('BMap原生Marker', bmapmarker);
+    bmapmarker.addEventListener('click', function () {
+        alert('CLICK : BMap原生Marker');
+    })
+</script>
+
+</body>
+</html>

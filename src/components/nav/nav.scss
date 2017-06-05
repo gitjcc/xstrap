@@ -1,0 +1,16 @@
+
+@import "../../common/styles/themes/variable";
+
+.x-nav{position:relative;background:#393D49;color:$bgColorDeep;overflow:hidden;}
+.x-nav-item{float:left;line-height:60px;margin-left:-3px;}
+.x-nav-item a{display:block;padding:0 20px;}
+.x-nav-item a:hover{background:lighten(#393D49,5%);}
+.x-nav-cross .x-nav-item.x-active{background:lighten(#393D49,5%);color:#fff;}
+
+.x-nav-sidebar{width:200px;}
+.x-nav-sidebar .x-nav-item{display:block;position:relative;width:100%;line-height:45px;margin-left:0;}
+.x-nav-sidebar .x-nav-item i{float:right;}
+.x-nav-sidebar .x-nav-child{width:100%;background:darken(#393D49,5%)}
+.x-nav-sidebar .x-nav-child a{height:40px;line-height:40px;}
+.x-nav-sidebar .x-nav-child a:hover{color:#fff;background:#575961;}
+.x-nav-sidebar .x-nav-item a.x-cur{background:lighten(#393D49,3%)}

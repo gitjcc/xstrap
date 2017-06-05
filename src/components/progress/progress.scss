@@ -1,0 +1,76 @@
+.x-progress-wrap {
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); }
+
+.x-progress-bar {
+  float: left;
+  width: 0;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #0275d8;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15); }
+
+.x-progress-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 1rem 1rem;
+  background-size: 1rem 1rem; }
+
+.x-progress-animated {
+  -webkit-animation: x-progress-stripes 1s linear infinite;
+  -o-animation: x-progress-stripes 1s linear infinite;
+  animation: x-progress-stripes 1s linear infinite; }
+
+@-webkit-keyframes x-progress-stripes {
+  from {
+    background-position: 0 0; }
+  to {
+    background-position: 1rem 0; } }
+
+@-o-keyframes x-progress-stripes {
+  from {
+    background-position: 0 0; }
+  to {
+    background-position: 1rem 0; } }
+
+@keyframes x-progress-stripes {
+  from {
+    background-position: 0 0; }
+  to {
+    background-position: 1rem 0; } }
+
+.x-progress-only {
+  visibility: hidden; }
+
+.x-progress-text {
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1.42; }
+
+.x-progress-min-width {
+  min-width: 2%; }
+
+.x-progress-red {
+  background-color: #d9534f; }
+
+.x-progress-green {
+  background-color: #5cb85c; }
+
+.x-progress-blue {
+  background-color: #5bc0de; }
+
+.x-progress-yellow {
+  background-color: #f0ad4e; }
+
+.x-progress-hidden {
+  visibility: hidden; }
+
+.x-progress-visible {
+  visibility: visible; }

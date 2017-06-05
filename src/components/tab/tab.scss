@@ -1,0 +1,9 @@
+@import '../../common/styles/themes/variable';
+
+.x-tab-nav{border-bottom:1px solid #ddd;}
+.x-tab-nav li{display:inline-block;margin-bottom:-1px;cursor:pointer;}
+.x-tab-nav li a{display:block;padding:5px 10px;color:#333;}
+.x-tab-nav li.x-active a{color:#026b9c;background:#fff;border-radius:5px 5px 0 0;border:1px solid $borderColorLight;border-bottom-color:transparent;}
+.x-tab-contents{padding:10px;border-bottom:1px solid $borderColorLight;}
+.x-tab-content{display:none;}
+.x-tab-content.x-active{display:block;}

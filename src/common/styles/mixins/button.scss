@@ -1,0 +1,17 @@
+$color: #ff111d;
+@import "../themes/variable";
+
+.x-button {display: inline-block;margin:0 5px;height:28px;line-height:28px;padding: 0 10px;background-color: #1AB394
+;color:set-notification-text-color($baseColorMain);border-radius: 5px;cursor: pointer;font-size:$baseFontSize;}
+.x-button:hover{background-color:darken(#1AB394,10%)}
+.x-button i{margin-right:5px;}
+.x-button-large {height:36px;line-height:36px;padding: 0 15px;font-size:16px;}
+//.x-button-small {height:30px;line-height:30px;padding: 0 10px;font-size:$minFontSize;}
+.x-button-small {height:22px;line-height:22px;padding: 0 5px;font-size:$minFontSize;}
+
+.x-button-normal{background-color:$baseColorMain}
+.x-button-danger{background-color:#FF5722}
+
+.x-button-normal:hover{background-color:darken($baseColorMain,10%)}
+.x-button-danger:hover{background-color:darken(#FF5722,10%)}
+

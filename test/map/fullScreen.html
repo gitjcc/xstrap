@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上大屏模式</title>
+    <style>
+        .option_btn{
+            position: absolute;bottom: 10px;right: 20px;z-index: 10;
+        }
+    </style>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=a3b3d16e95cfd8d858300d093f839c5f"></script>
+
+
+    <!--IE8下，使用填补器-->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+    <![endif]-->
+    <!--如果你用到了datepicker插件，则使用moment.js-->
+    <script src="../../dist/vendor/moment.js"></script>
+    <script src="../../dist/vendor/jquery.js"></script>
+
+    <script src="http://localhost:9000/xstarp.js"></script>
+</head>
+<body>
+<div id="main"></div>
+<div id="container" style="height: 600px;margin: 50px 0;width: 100%;box-sizing: border-box">
+
+
+    <div class="option_btn">
+        <span class="fullScreen x-button" id="view-fullscreen">上大屏模式</span>
+        <span class="x-button cancel" id="cancel-fullscreen" >退出大屏模式</span>
+    </div>
+</div>
+</body>
+<script>
+    var docElm = document.getElementById("container");
+    var lngLat = [104.056435,30.671192];
+    var myMap3 = XMapSdk(
+            {
+                dom:'container',
+                resizeEnable:true,
+                center:lngLat,
+                zoom:13
+            },{
+                strokeColor: "#2e90df",
+                strokeOpacity: 1,
+                strokeWeight: 3,
+                strokeStyle:'solid',
+                fillColor: "#d2e8f5",
+                fillOpacity: 0.5,
+                extData:null
+            }
+    );
+
+    var viewFullScreen = document.getElementById("view-fullscreen");
+    var cancelFullScreen = document.getElementById("cancel-fullscreen");
+
+
+    if (viewFullScreen) {
+        viewFullScreen.addEventListener("click", function () {
+            console.log("上大屏");
+            launchFullScreen();
+        }, false);
+    }
+
+    var isFullScreen = false;
+
+    function setWidthAndHeight(width,height,margin){
+        if(!margin){
+            margin = 0;
+        }
+        $(docElm).css({'width':width,'height':height,'margin':margin});
+//        $(docElm).css({'width':width,'height':height,'margin':margin});
+    }
+    function  setHeight(){
+
+    }
+    if (cancelFullScreen) {
+        cancelFullScreen.addEventListener("click", function () {
+            console.log("退出上大屏");
+            exitFullScreen();
+        }, false);
+        var de = document;
+        if (de.exitFullscreen) {
+            de.exitFullscreen();
+        } else if (de.mozCancelFullScreen) {
+            de.mozCancelFullScreen();
+        } else if (de.webkitCancelFullScreen) {
+            de.webkitCancelFullScreen();
+        }
+    }
+
+
+    document.addEventListener("fullscreenchange", function () {
+        isFullScreen = (document.fullscreenElement) ? true : false;
+
+
+    }, false);
+
+    document.addEventListener("msfullscreenchange", function () {
+        isFullScreen = (document.msFullscreenElement) ? true : false;
+
+    }, false);
+
+    document.addEventListener("mozfullscreenchange", function () {
+        isFullScreen = (document.mozFullScreen) ? true : false;
+
+    }, false);
+
+    document.addEventListener("webkitfullscreenchange", function () {
+       isFullScreen = (document.webkitIsFullScreen) ? true : false;
+//        commandMethod.isFullSet(isJudge_var.isFullScreen);
+
+    }, false);
+
+
+    function launchFullScreen() {
+
+        //进入全屏 投影模式
+        if (docElm.requestFullscreen) {
+            docElm.requestFullscreen();
+
+        }
+        else if (docElm.msRequestFullscreen) {
+            docElm.msRequestFullscreen();
+            //                    alert('进入全屏');
+
+        }
+        else if (docElm.mozRequestFullScreen) {
+            docElm.mozRequestFullScreen();
+
+        }
+        else if (docElm.webkitRequestFullScreen) {
+            docElm.webkitRequestFullScreen();
+
+        }
+        setWidthAndHeight('100%','100%');
+    }
+
+    function exitFullScreen() {
+        var docElm = document;
+
+        //退出全屏  投影模式
+        if (docElm.exitFullscreen) {
+            docElm.exitFullscreen();
+        }
+        else if (docElm.msExitFullscreen) {
+            docElm.msExitFullscreen();
+        }
+        else if (docElm.mozCancelFullScreen) {
+            docElm.mozCancelFullScreen();
+        }
+        else if (docElm.webkitCancelFullScreen) {
+            docElm.webkitCancelFullScreen();
+        }
+        setWidthAndHeight('100%','600px','50px 0');
+    }
+
+    var    $win = $(window);
+    //win的resize方法   会在执行上大屏和退出上大屏后执行
+    $win.bind('resize', function () {
+        console.log(isFullScreen);
+        if (!isFullScreen) {
+            $(".cancel").click();
+        }else {
+            $(".fullScreen").click();
+        }
+    });
+</script>
+</html>

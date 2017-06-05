@@ -1,0 +1,8 @@
+//地图
+.x-popMap{ display: none; position: fixed;top:50%;left: 50%;z-index:8888; margin-left: -400px;margin-top: -250px;}
+.x-popMap-close{margin-top:-15px;margin-right:-15px;right:0;width: 30px;height: 30px;position: absolute;z-index: 10;}
+.x-popMap-close img{width: 30px;height: 30px;}
+.x-popMap-option{width: 100%;position: relative;height: 40px;background: #eee;}
+.x-popMap-option span{cursor: pointer; position: absolute;margin-top: 8px;}
+.x-popMap-option .x-popMap-ok{cursor: pointer; right:100px;}
+.x-popMap-option .x-popMap-cancel{right:30px;}

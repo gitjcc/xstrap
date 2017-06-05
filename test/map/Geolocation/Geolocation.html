@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #container {
+      position: relative;
+      height: 600px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>InfoWindow test</div>
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id="container" class="map_container">
+  </div>
+
+  <script src="../../../dist/vendor/jquery.js"></script>
+  <script src="http://webapi.amap.com/maps?v=1.3&key=319766fcdf57589d1da6e0dfc89770d2"></script>
+  <script src="http://api.map.baidu.com/api?v=2.0&ak=h733PD7WQgKZYRotiD19oK0w0y6sz0QC"></script>
+  <script src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+  <script src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+  <script src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjPUco3l_6-f8ZexAesZrYFzpGtRQHvSo"></script>
+  <script>
+    SMapConfig = {
+      SMap_target_type: 'g', //a,b,g
+    };
+  </script>
+  <script src="../../../dist/temp.js"></script>
+  <script>
+    var p1 = new SMap.LngLat(104.06587958335876,30.657515837921938);
+
+    var smap = new SMap.Map('container', {
+      resizeEnable: true,
+      zoom: 11,
+      center: p1
+    });
+
+    var geocoder = new SMap.Geocoder();
+    smap.on('click', function(e) {
+      geocoder.geocode({
+        'location': e._inner.latLng
+      }, function(results, status) {
+        if (status === 'OK') {
+          console.log('results', results[0], results[0].formatted_address);
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    });
+
+
+
+    var infoWindow = new google.maps.InfoWindow({
+      map: smap._inner
+    });
+
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos)
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('Location found.');
+        smap.setCenter(pos);
+      }, function() {
+        handleLocationError(true, infoWindow, smap.getCenter());
+      });
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, smap.getCenter());
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
+    }
+  </script>
+
+</body>
+
+</html>

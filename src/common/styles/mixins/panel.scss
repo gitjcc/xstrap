@@ -1,0 +1,13 @@
+@import '../themes/variable';
+.x-panel {
+  border: 1px solid $borderColorDeep;
+  overflow: auto;
+  border: {
+    top: {
+      //left-radius: $radiusLevel;
+      right-radius: $radiusLevel;
+    }
+  }
+}
+.x-panel-title {background-color: $baseColorThird;font-size: 20px;color: set-notification-text-color($baseColorThird);padding: 10px;}
+.x-panel-content {padding: 10px;}

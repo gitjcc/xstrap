@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>xstrap-webpack-xstrap webpack</title>
+  <meta name="description" content="xstrap webpack">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="vendor/themes/style.css">
+  <link rel="stylesheet" href="/vendor/themes/vue.css">
+  <link rel="stylesheet" href="dist/xstarp.css">
+  <link rel="stylesheet" href="dist/asset/iconfont/iconfont.css">
+
+</head>
+<body>
+
+<nav class="navBar">
+  <ul>
+    <li><a href="#/">首页</a></li>
+    <li>
+      <a>样式</a>
+      <ul>
+        <li><a href="#/doc/common/button">按钮</a></li>
+        <li><a href="#/doc/common/icon">图标</a></li>
+        <!--<li><a href="#/doc/common/alert">提示</a></li>-->
+        <!--<li><a href="#/doc/common/page">分页</a></li>-->
+        <!--<li><a href="">栅栏</a></li>-->
+        <!--<li><a href="#/doc/common/panel">面板</a></li>-->
+        <li><a href="#/doc/common/table">表格</a></li>
+        <li><a href="#/doc/form/form">表单元素</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a>插件</a>
+      <ul>
+        <li><a href="#/doc/tree/tree">树</a></li>
+        <li><a href="#/doc/imgView/imgView">图片</a></li>
+        <li><a href="#/doc/popup/popup">弹窗</a></li>
+        <li><a href="#/doc/map/map">地图</a></li>
+        <li><a href="#/doc/nav/nav">导航</a></li>
+        <li><a href="#/doc/tab/tab">标签页</a></li>
+        <li><a href="#/doc/tip/tip">贴士</a></li>
+        <li><a href="#/doc/progress/progress">进度条</a></li>
+        <li><a href="">文件上传</a></li>
+        <li><a href="#/doc/chart/chart">图表</a></li>
+        <li><a href="">时间选择器</a></li>
+        <li><a href="#/doc/placeholder/placeholder">placeholder</a></li>
+      </ul>
+    </li>
+    <li>
+      <a>函数</a>
+      <ul>
+        <li><a href="#/doc/common/format">格式化</a></li>
+        <li><a href="#/doc/gettime/gettime">获取时间</a></li>
+        <li><a href="#/doc/validate/validate">表单验证</a></li>
+      </ul>
+    </li>
+
+    <li>
+      <a>封装</a>
+      <ul class="navBar-second">
+        <li><a href="#/doc/common/ajax">Ajax操作</a></li>
+      </ul>
+    </li>
+  </ul>
+
+</nav>
+  <div id="app"></div>
+  <script src="http://webapi.amap.com/maps?v=1.3&key=319766fcdf57589d1da6e0dfc89770d2"></script>
+  <script src="http://api.map.baidu.com/api?v=2.0&ak=h733PD7WQgKZYRotiD19oK0w0y6sz0QC"></script>
+  <script src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+  <script src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+  <script src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjPUco3l_6-f8ZexAesZrYFzpGtRQHvSo"></script>
+  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+  <script src="dist/vendor/moment.js"></script>
+  <script src="dist/vendor/jquery.js"></script>
+  <script src="dist/vendor/echarts.js"></script>
+  <!--<script src="dist/vendor/xEchart.js"></script>-->
+  <script src="dist/xstarp.js"></script>
+</body>
+<script src="vendor/prism.js" ></script>
+<script src="vendor/markrun.min.js"></script>
+<script>
+	window.$docsify = {
+      markdown: function (marked) {
+			markrun.setOptions({
+				template: '',
+				markdownParser: marked,
+				highlight: function (source, lang, data) {
+					return Prism.highlight(source,  Prism.languages[lang] || Prism.languages.markup)
+				},
+				compile: {
+					js: function (source) {
+						// 如果需要编译则编译 source 后 eval
+						// eval 前必须增加 setTimeout
+						setTimeout(function () {
+//							if (!JSXTransformer) {
+//															eval(source)
+//							} else {
+//															source = JSXTransformer.transform(source).code
+//                            }
+													eval(source)
+						}, 100)
+						return {
+							lang: 'js',
+							source: source,
+							code: ''
+						}
+					}
+				},
+
+
+			});
+			return markrun
+		},
+//		loadNavbar:true
+	};
+
+
+</script>
+
+<script src="/vendor/docsify.js" data-router data-name="小步框架"></script>
+
+</html>

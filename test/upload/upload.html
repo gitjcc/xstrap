@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .map_container {
+      height:600px;
+    }
+  </style>
+</head>
+<body>
+
+<div>asdflkjg</div>
+<!--在这里写你的html-->
+<div class="x-uploader">
+  <div class="x-queueList">
+    <div  class="x-placeholder  x-dndArea">
+      <div class="x-filePicker"></div>
+    </div>
+  </div>
+  <div class="x-imgFile"></div>
+  <div class="x-statusBar" style="display:none;">
+    <div class="x-progress-wrap x-progress-upload" style="width: 200px;" ></div>
+    <div class="x-info"></div>
+    <div class="x-upload-btns">
+      <div class="x-filePicker-add"></div><div class="x-uploadBtn">开始上传</div>
+    </div>
+  </div>
+</div>
+
+<!--IE8下，使用填补器-->
+<!--[if lt IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+<![endif]-->
+<!--如果你用到了datepicker插件，则使用moment.js-->
+<script src="../../dist/vendor/moment.js"></script>
+<script src="../../dist/vendor/jquery.js"></script>
+
+<script src="http://localhost:9000/xstarp.js"></script>
+
+
+
+<script>
+
+
+
+  var upload = xUpload({
+    dom: $(".x-uploader"),
+    fileType :1,                             //   1 头像     2 文件
+    fileNumLimit: 300,                       //总共能上传多少个文件
+    fileSizeLimit: 200 * 1024 * 1024,        //   多个文件大小
+    fileSingleSizeLimit: 100 * 1024 * 1024,   //   单个文件大小
+    formData: {
+      uid: 123
+    },                                       //传给后台的数据
+    fileVal:'x-file',                        //input框 name
+    fileButton: {
+      id :'.x-filePicker',
+      label: '批量上传',                     //按钮名字和id   可以点击的按钮的id和name
+      multiple:true
+    },
+    addButton:{
+      id: '.x-filePicker-add',
+      label: '继续添加'
+    },
+    server: '_uploadFileServer.php',          //服务器地址
+    success:function(file,data){
+      console.log(data);
+      console.log(file);
+//            alert('上传成功');
+    },
+    progress:function(schedu){
+      console.log('当前进度：',schedu);
+
+    }
+  })
+</script>
+
+</body>
+</html>

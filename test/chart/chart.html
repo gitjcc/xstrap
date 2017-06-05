@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图表</title>
+</head>
+<body>
+<div id="x-chart1" style="width:49%;height: 400px;display: inline-block"></div>
+<div id="x-chart2" style="width:49%;height: 400px;display: inline-block"></div>
+<div id="x-chart3" style="width:49%;height: 400px;display: inline-block"></div>
+<div id="x-chart4" style="width:49%;height: 400px;display: inline-block"></div>
+
+<!--IE8下，使用填补器-->
+<!--[if lt IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+<![endif]-->
+<!--如果你用到了datepicker插件，则使用moment.js-->
+<script src="../../dist/vendor/moment.js"></script>
+<script src="../../dist/vendor/jquery.js"></script>
+<script src="http://localhost:9000/xstarp.js"></script>
+
+<script>
+  XChart.barChart({
+        conId:'x-chart1',
+        title:'标题',
+        xArray:['星期一星期', '星期二星期', '星期三星星期', '星期四星星期'],
+        colorArray:['#3398DB','#61a0a8'],
+        legendOrient:'horizontal',
+        legendArray:['利润','支出'],
+        textrotate:30,
+        xTextStyle:{color: function (val) {
+            if (val == '星期一星期') {
+                return "blue";
+            } else {
+                return "black";
+            }
+        },fontSize:14},
+        dataArray:[
+            {data:[200, 170, 240, 244]},
+            {data:[320, 302, 341, 374]}
+        ],
+        fn:function (param) {
+            alert(param.value);
+        }
+    });
+  XChart.cirChart({
+        conId:'x-chart2',
+        title:'饼图',
+        seriesType:'pie',
+        legendArray:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+        dataArray:[
+            {value:335},
+            {value:310},
+            {value:234},
+            {value:135},
+            {value:1548}
+        ]
+    });
+  XChart.cirChart({
+        conId:'x-chart3',
+        title:'饼图',
+        seriesType:'pie',
+        radius: ['50%', '70%'],
+        legendArray:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎'],
+        dataArray:[
+            {value:335},
+            {value:310},
+            {value:234},
+            {value:135},
+            {value:1548}
+        ]
+    });
+  XChart.linesChart({
+        conId:'x-chart4',
+        title:'折线图',
+        legendArray:['最高气温','最低气温'],
+        xArray:['周一','周二','周三','周四','周五','周六','周日'],
+        dataArray:[
+            {data:[11, 11, 15, 13, 12, 13, 10]},
+            {data:[1, -2, 2, 5, 3, 2, 0]}
+        ]
+    })
+</script>
+</body>
+</html>

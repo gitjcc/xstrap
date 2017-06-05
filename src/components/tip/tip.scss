@@ -1,0 +1,38 @@
+
+@import '../../common/styles/themes/variable';
+
+
+.x-tip{
+  position:relative;
+}
+
+.x-tip-container{
+  display:block;
+  padding:10px;
+  margin:10px 0;
+  background:$bgColorDeep;
+  cursor:pointer;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+}
+.x-tip-dialog{
+  display:none;
+  position:absolute;
+  padding:10px;
+  background:rgba(0,0,0,0.5);
+  border-radius:4px;
+  color:$fontColorLight;
+  z-index:999;
+}
+
+
+.x-tip-cor{
+  position:absolute;
+  left:10%;
+  bottom:-20px;
+  border-width:10px;
+  border-style:solid;
+  border-color:rgba(0,0,0,0.5) transparent transparent;
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    #container {
+      position: relative;
+      height: 600px;
+    }
+
+    #pac-input {
+      position: absolute;
+      top: 60px;
+      left: 60px;
+      z-index: 99;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>InfoWindow test</div>
+  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+  <div id="container" class="map_container">
+  </div>
+
+  <script src="../../../dist/vendor/jquery.js"></script>
+  <script src="http://webapi.amap.com/maps?v=1.3&key=319766fcdf57589d1da6e0dfc89770d2"></script>
+  <script src="http://api.map.baidu.com/api?v=2.0&ak=h733PD7WQgKZYRotiD19oK0w0y6sz0QC"></script>
+  <script src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
+  <script src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+  <script src="http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction_min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjPUco3l_6-f8ZexAesZrYFzpGtRQHvSo&libraries=places"></script>
+  <script>
+    SMapConfig = {
+      SMap_target_type: 'g', //a,b,g
+    };
+
+  </script>
+  <script src="../../../dist/temp.js"></script>
+  <script>
+    var p1 = new SMap.LngLat(104.077955, 30.444575);
+    var p2 = new SMap.LngLat(104.037955, 30.444575);
+    var p3 = new SMap.LngLat(104.007955, 30.444575);
+    var p11 = new SMap.LngLat(104.077955, 30.406777);
+    var p12 = new SMap.LngLat(104.057955, 30.426777);
+    var p13 = new SMap.LngLat(104.037955, 30.446777);
+    var p14 = new SMap.LngLat(104.017955, 30.466777);
+    var p15 = new SMap.LngLat(104.037955, 30.486777);
+    var p16 = new SMap.LngLat(104.057955, 30.406777);
+    var p17 = new SMap.LngLat(104.077955, 30.426777);
+    var p18 = new SMap.LngLat(104.007955, 30.446777);
+    var px1 = new SMap.Pixel(-15, -34);
+    var px2 = new SMap.Pixel(9, 9);
+    var px3 = new SMap.Pixel(9, 9);
+    var icon =
+      'http://fhj.xbwq.com.cn/fhj/public/common/widget/module/location/track/images/track/track_map2_start.png';
+
+    var smap = new SMap.Map('container', {
+      resizeEnable: true,
+      zoom: 13,
+      center: p1,
+      mapTypeId: 'roadmap'
+    });
+
+    var offset = new SMap.Pixel(-15, -34);
+    var icon =
+      'http://fhj.xbwq.com.cn/fhj/public/common/widget/module/location/track/images/track/track_map2_start.png';
+
+    function createInfoWindow(title, content, info_bottom, info_className, dataId) {
+      var info_pop = document.createElement('div');
+      info_pop.className = 'info-pop';
+
+      var info = document.createElement('div');
+      info.className = info_className;
+
+      // top title
+      var top = document.createElement("div");
+      var titleD = document.createElement("div");
+      var closeX = document.createElement("img");
+      top.className = "info-top";
+      titleD.innerHTML = title;
+      closeX.src = 'http://c163img.nos-eastchina1.126.net/16810786.jpg';
+      closeX.onclick = closeInfoWindow;
+      closeX.className = "info-close";
+      top.appendChild(titleD);
+      top.appendChild(closeX);
+      info.appendChild(top);
+
+      // middle title
+      var middle = document.createElement("div");
+      middle.className = "info-middle";
+      middle.style.backgroundColor = 'white';
+      middle.innerHTML = content;
+      info.appendChild(middle);
+
+      // bottom title
+      var bottom = document.createElement("div");
+      bottom.className = "info-bottom";
+      bottom.innerHTML = info_bottom;
+
+      info.appendChild(bottom);
+      info.setAttribute('data-id', dataId);
+      info_pop.appendChild(info);
+
+      return info_pop;
+    }
+
+    function closeInfoWindow() {
+      smap.clearInfoWindow();
+      $(".fenceMask").hide();
+    }
+    var info = createInfoWindow('title', 'content', 'info_bottom', 'info_className', 'dataId');
+
+
+    var mrkrs = []
+    var lng = 104.077955
+    var lat = 30.477575
+    for (var index = 0; index < 10; index++) {
+      lng += 0.02
+      lat -= 0.02
+      mrkrs[index] = new SMap.Marker({
+        icon: icon,
+        offset: offset,
+        position: new SMap.LngLat(lng, lat),
+        extData: {
+          iconval: 11,
+          iconval_s: 22
+        },
+        visible: true,
+        title: 'hello world111111111111',
+        zIndex: 10,
+        // content: 'c1111' //自定义点标记覆盖物内容
+      });
+      mrkrs[index].setMap(smap);
+    }
+    smap.setFitView();
+    // smap.setFitView(mrkrs);
+
+
+
+    var marker = new SMap.Marker({
+      icon: icon,
+      offset: offset,
+      position: new SMap.LngLat(104.077955, 30.477575),
+      extData: {
+        iconval: 11,
+        iconval_s: 22
+      },
+      visible: true,
+      title: 'hello world111111111111',
+      zIndex: 10,
+      content: 'c1111' //自定义点标记覆盖物内容
+    });
+    marker.setMap(smap);
+    marker.on('click', popinfo)
+
+    var iw = new google.maps.InfoWindow({
+      content: info,
+      position: new google.maps.LatLng({
+        lng: 104.077955,
+        lat: 30.477575
+      }),
+    });
+
+    function popinfo(params) {
+      iw.setMap(smap._inner);
+    }
+
+    //marker2
+    var marker2 = new SMap.Marker({
+      icon: icon,
+      offset: offset,
+      position: new SMap.LngLat(104.057955, 30.477575),
+      extData: {
+        iconval: 11,
+        iconval_s: 22
+      },
+      visible: true,
+      title: 'hello world111111111111',
+      zIndex: 10,
+      content: 'c2222' //自定义点标记覆盖物内容
+    });
+    marker2.setMap(smap);
+    marker2.on('click', popinfo2)
+
+    var iw2 = new SMap.InfoWindow({
+      content: info,
+      position: new SMap.LngLat(104.057955, 30.477575),
+    });
+
+    function popinfo2(params) {
+      iw2.open(smap);
+    }
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    smap.controls = {
+      1: []
+    };
+    smap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    smap.on('bounds_changed', function () {
+      searchBox.setBounds(smap.getBounds()._inner);
+    });
+
+    var markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function () {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // Clear out the old markers.
+      markers.forEach(function (marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      // For each place, get the icon, name and location.
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach(function (place) {
+        if (!place.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+
+        // Create a marker for each place.
+        markers.push(new SMap.Marker({
+          map: smap,
+          icon: icon,
+          title: place.name,
+          position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+      smap.setFitView(bounds);
+    });
+
+  </script>
+
+</body>
+
+</html>

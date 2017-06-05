@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹窗</title>
+</head>
+<body>
+<style>
+    .pop-button span{display:inline-block;height:36px;line-height:36px;width:60px;text-align:center;border-radius:4px;color:#fff;background:#1AB394;cursor:pointer;}
+</style>
+<div class="pop-button">
+    <span class="pop-button-prompt1">提示1</span>
+    <span class="pop-button-prompt2">提示2</span>
+    <span class="pop-button-confirm">确定</span>
+    <span class="pop-button-define">自定义</span>
+</div>
+
+<!--IE8下，使用填补器-->
+<!--[if lt IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+<![endif]-->
+<!--如果你用到了datepicker插件，则使用moment.js-->
+<script src="../../dist/vendor/moment.js"></script>
+<script src="../../dist/vendor/jquery.js"></script>
+<script src="http://localhost:9000/xstarp.js"></script>
+
+<script>
+    $('.pop-button-prompt1').click(function(){
+        xPopUp('prompt',{
+            p_width:200,
+            content:'操作成功',
+            btn:[{
+                name:'确定'
+            }]
+        });
+    });
+    $('.pop-button-prompt2').click(function(){
+        xPopUp('prompt',{
+            p_width:200,
+            content:'操作成功'
+        },2000);
+    });
+
+    $('.pop-button-confirm').click(function(){
+        xPopUp('confirm', {
+            content:'确定删除吗',
+            isClose:false,
+            confirmfn:function(){
+                xPopUp('prompt',{
+                    p_width:200,
+                    content:'操作成功'
+                },2000);
+            }
+        });
+    });
+
+    $(".pop-button-define").click(function(){
+        var edit_con = $('<input type="text">');
+        xPopUp('define',{
+            p_width:300,
+            title:'用户信息',
+            content:edit_con,
+            btn:[{
+                name:'保存',
+                classStr:'confirm',
+                isClose:true,
+                opra:function(){
+                    xPopUp('prompt',{
+                        p_width:200,
+                        content:'保存成功'
+                    },2000);
+                }
+
+            },{
+                name:'取消',
+                classStr:'cancel',
+                isClose:true
+            },{
+                name:'重置',
+                classStr:'reset',
+                isClose:false,
+                opra:function(){
+                    $('input').val("");
+                }
+            }]
+
+
+        });
+    });
+
+</script>
+
+
+</body>
+</html>
